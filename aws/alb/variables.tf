@@ -41,7 +41,3 @@ variable "platform_prefix" {
   type        = string
 }
 
-variable "infra_environment" {
-  description = "The infrastructure environment"
-  type        = string
-}
