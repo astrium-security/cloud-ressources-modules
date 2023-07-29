@@ -4,7 +4,7 @@ module "ecs_service" {
     container_name        =   var.container_name
     app_environment       =   var.app_environment
     cluster_id            =   var.cluster_id
-    task_definition_arn   =   module.ecs_task_execution_role_arn
+    task_definition_arn   =   module.ecs_task_execution_role_arn.ecs_task_execution_role_arn
     desired_count         =   1
     launch_type           =   "FARGATE"
     scheduling_strategy   =   "REPLICA"
