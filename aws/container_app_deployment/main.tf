@@ -9,7 +9,7 @@ module "ecs_service" {
     launch_type           =   "FARGATE"
     scheduling_strategy   =   "REPLICA"
     force_new_deployment  =   true
-    security_groups       =   module.security_groups
+    security_groups       =   [module.security_groups.id]
     public_subnet         =   var.public_subnets
     target_group_arn      =   module.alb.aws_lb_target_group_arn
     container_port        =   var.container_port
