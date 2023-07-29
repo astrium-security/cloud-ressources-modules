@@ -1,7 +1,7 @@
 resource "aws_ecs_task_definition" "main_app" {
   family                   = "${var.prefix}-${var.container_name}-${var.app_environment}-task"
   network_mode             = var.network_mode
-  requires_compatibilities = [var.requires_compatibilities]
+  requires_compatibilities = var.requires_compatibilities
   cpu                      = var.cpu
   memory                   = var.memory
   execution_role_arn       = aws_iam_role.ecs_task_execution_role_app.arn
