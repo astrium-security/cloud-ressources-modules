@@ -24,6 +24,7 @@ module "alb" {
   public_subnet         =   var.public_subnets
   certificate_arn       =   var.certificate_arn
   vpc_id                =   var.vpc_id
+  container_port        =   var.container_port
 }
 
 module "ecs_task_definition" {
