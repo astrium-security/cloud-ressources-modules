@@ -1,4 +1,4 @@
-resource "aws_security_group" "ecs_tasks-resource" {
+resource "aws_security_group" "sg" {
   name   = "${var.prefix}-${var.resource_name}-${var.environment}-sg"
   vpc_id = var.vpc_id
 
