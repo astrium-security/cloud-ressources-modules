@@ -36,8 +36,3 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "platform_prefix" {
-  description = "The platform prefix"
-  type        = string
-}
-
