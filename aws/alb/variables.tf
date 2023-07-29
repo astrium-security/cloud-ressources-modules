@@ -20,9 +20,7 @@ variable "app_environment" {
 
 variable "public_subnet" {
   description = "The public subnet to attach the load balancer"
-  type        = list(object({
-    id = string
-  }))
+  type        = list()
   default     = []
 }
 
