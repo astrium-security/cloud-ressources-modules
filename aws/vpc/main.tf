@@ -8,7 +8,7 @@ module "vpc" {
 
 # Create a public subnet
 resource "aws_subnet" "public" {
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = module.vpc.vpc_id
   cidr_block              = element(var.public_subnets, count.index)
   availability_zone       = element(var.availability_zones, count.index)
   count                   = length(var.public_subnets)
@@ -21,7 +21,7 @@ resource "aws_subnet" "public" {
 
 # Create a private subnet
 resource "aws_subnet" "private" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = module.vpc.vpc_id
   cidr_block        = element(var.private_subnets, count.index)
   availability_zone = element(var.availability_zones, count.index)
   count             = length(var.private_subnets)
@@ -33,7 +33,7 @@ resource "aws_subnet" "private" {
 
 # Create an Internet Gateway and attach it to the VPC
 resource "aws_internet_gateway" "gw" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = module.vpc.vpc_id
   tags = {
     Name = "${var.prefix}-${var.infra_environment}-internet-gateway"
   }
@@ -41,7 +41,7 @@ resource "aws_internet_gateway" "gw" {
 
 # Create a route table for public subnet
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = module.vpc.vpc_id
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.gw.id
