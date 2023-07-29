@@ -1,3 +1,20 @@
+#module "ecs_service" {
+#    source                =   "../standalone_resources/ecs_service"
+#    prefix                =   var.prefix
+#    container_name        =   var.container_name
+#    app_environment       =   var.app_environment
+#    cluster_id            =   var.cluster_id
+#    task_definition_arn   =   module.ecs_task_definition.arn
+#    desired_count         =   1
+#    launch_type           =   ""
+#    scheduling_strategy   =   ""
+#    force_new_deployment  =   true
+#    security_groups       =   module.security_groups
+#    public_subnet         =   var.public_subnets
+#    target_group_arn      =   ""
+#    container_port        =   var.container_port
+#}
+
 module "ecs_task_definition" {
   source                =   "../standalone_resources/ecs_task_definition"
   prefix                =   var.prefix
