@@ -58,7 +58,7 @@ resource "aws_lb_listener" "app_redirect" {
 }
 
 resource "aws_lb_target_group" "tg-app" {
-  name        = "${var.prefix}-${var.container_name}-tg-${var.infra_environment}"
+  name        = "${var.prefix}-${var.container_name}-${var.app_environment}-tg"
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
@@ -81,7 +81,7 @@ resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
 }
 
 resource "aws_security_group" "lb_sg_app" {
-  name        = "lb_sg_app"
+  name        = "${var.prefix}-${var.container_name}-${var.app_environment}-lb-sg"
   description = "Allow incoming traffic to the Load Balancer"
   vpc_id      = var.vpc_id
 
