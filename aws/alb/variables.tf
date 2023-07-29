@@ -33,3 +33,8 @@ variable "vpc_id" {
   type        = string
 }
 
+variable "container_port" {
+  description = "Container port"
+  type        = number
+}
+
