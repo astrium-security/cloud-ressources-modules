@@ -59,7 +59,7 @@ resource "aws_lb_listener" "app_redirect" {
 
 resource "aws_lb_target_group" "tg-app" {
   name        = "${var.prefix}-${var.container_name}-${var.app_environment}-tg"
-  port        = 80
+  port        = var.container_port
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = var.vpc_id
