@@ -15,6 +15,17 @@
 #    container_port        =   var.container_port
 #}
 
+module "alb" {
+  source                =   "../alb"
+  route53_zone_id       =   var.route53_zone_id
+  prefix                =   var.prefix
+  container_name        =   var.container_name
+  app_environment       =   var.app_environment
+  public_subnet         =   var.public_subnets
+  certificate_arn       =   var.certificate_arn
+  vpc_id                =   var.vpc_id
+}
+
 module "ecs_task_definition" {
   source                =   "../standalone_resources/ecs_task_definition"
   prefix                =   var.prefix
