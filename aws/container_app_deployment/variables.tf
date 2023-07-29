@@ -55,7 +55,7 @@ variable "route53_zone_id" {
 
 variable "public_subnets" {
   description = "List of public subnets"
-  type        = list(map(string))
+  type        = list(any)
 }
 
 variable "certificate_arn" {
