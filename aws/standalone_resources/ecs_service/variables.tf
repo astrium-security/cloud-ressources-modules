@@ -53,7 +53,7 @@ variable "security_groups" {
 
 variable "public_subnet" {
   description = "List of public subnets"
-  type        = list(string)
+  type        = list(any)
 }
 
 variable "target_group_arn" {
