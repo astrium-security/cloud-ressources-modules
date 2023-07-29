@@ -10,5 +10,5 @@ output "validation_record_fqdns" {
 
 output "domain_name" {
   description = "The ARN of the ACM certificate"
-  value       = aws_acm_certificate.cert_public.domain_name
+  value       = data.aws_route53_zone.selected.name
 }
