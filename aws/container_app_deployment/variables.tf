@@ -1,25 +1,54 @@
 variable "prefix" {
-  description = "The prefix to use for all resources"
+  description = "Prefix for resources"
   type        = string
 }
 
 variable "container_name" {
-  description = "The name of the container"
+  description = "Container name"
+  type        = string
+}
+
+variable "container_image" {
+  description = "Container image"
   type        = string
 }
 
 variable "app_environment" {
-  description = "The application environment"
+  description = "Application environment"
+  type        = string
+}
+
+variable "cpu" {
+  description = "CPU units for the task definition"
+  type        = string
+}
+
+variable "memory" {
+  description = "Memory for the task definition"
+  type        = string
+}
+
+variable "container_port" {
+  description = "Port on the container to bind to"
+  type        = number
+}
+
+variable "host_port" {
+  description = "Port on the host to bind to"
+  type        = number
+}
+
+variable "region" {
+  description = "AWS Region"
   type        = string
 }
 
 variable "vpc_id" {
-  description = "The VPC ID where the security group will be created"
+  description = "VPC ID"
   type        = string
 }
 
 variable "public_subnets" {
-  description = "A list of public subnets"
-  type        = list(object({ cidr_block = string }))
-  default     = []
+  description = "List of public subnets"
+  type        = list(object({cidr_block = string}))
 }

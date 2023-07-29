@@ -1,6 +1,20 @@
-#module "ecs_service" {
-#  source              = "../standalone_resources/ecs_service"
-#}
+module "ecs_task_definition" {
+  source                =   "../standalone_resources/ecs_task_definition"
+  prefix                =   var.prefix
+  container_name        =   var.container_name
+  image                 =   var.container_image
+  app_environment       =   var.app_environment
+  
+  network_mode              =   "awsvpc"   
+  requires_compatibilities  =   ["FARGATE"]
+
+  cpu                   =   var.cpu
+  memory                =   var.memory
+  container_port        =   var.container_port
+  host_port             =   var.host_port
+  region                =   var.region
+
+}
 
 module "security_groups" {
   source                = "../standalone_resources/security_group"
