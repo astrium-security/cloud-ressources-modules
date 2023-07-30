@@ -75,7 +75,7 @@ resource "aws_efs_mount_target" "all" {
   count          = length(var.public_subnets)
   file_system_id = aws_efs_file_system.efs.id
   subnet_id      = var.public_subnets[count.index].id
-  security_groups = [aws_security_group.ecs_container_security_group.id, aws_security_group_rule.ecs_loopback_rule.id]
+  security_groups = [aws_security_group.ecs_container_security_group.id]
 }
 
 resource "aws_security_group" "ecs_container_security_group" {
@@ -92,7 +92,6 @@ resource "aws_security_group" "ecs_container_security_group" {
 }
 
 resource "aws_security_group_rule" "ecs_loopback_rule" {
-  name                      = "${var.prefix}-${var.container_name}-${var.app_environment}-volume-isg"
   type                      =  "ingress"
   from_port                 = 0
   to_port                   = 0
