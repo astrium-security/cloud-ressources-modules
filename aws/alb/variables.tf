@@ -38,3 +38,7 @@ variable "container_port" {
   type        = number
 }
 
+variable "path_health" {
+  description = "path health"
+  type        = string
+}

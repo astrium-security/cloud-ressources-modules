@@ -26,6 +26,7 @@ module "alb" {
   certificate_arn       =   var.certificate_arn
   vpc_id                =   var.vpc_id
   container_port        =   var.container_port
+  path_health           =   var.path_health
 }
 
 module "ecs_task_definition" {

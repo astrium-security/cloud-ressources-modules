@@ -72,3 +72,8 @@ variable "container_env" {
   description = "container_env"
   type        = any
 }
+
+variable "path_health" {
+  description = "path_health"
+  type        = string
+}
