@@ -6,32 +6,7 @@ resource "aws_ecs_task_definition" "main_app" {
   memory                   = var.memory
   execution_role_arn       = aws_iam_role.ecs_task_execution_role_app.arn
   task_role_arn            = aws_iam_role.ecs_task_role_app.arn
-  container_definitions = jsonencode([{
-    name        = "${var.prefix}-${var.container_name}-${var.app_environment}-container"
-    image       = var.image
-    essential   = true
-    environment = [
-        {
-          "name" : "TEST_VAR",
-          "value" : "test_var"
-        }
-    ]
-
-    portMappings = [{
-      protocol      = "tcp"
-      containerPort = var.container_port
-      hostPort      = var.host_port
-    }]
-
-    logConfiguration = {
-      logDriver = "awslogs"
-      options = {
-        awslogs-group         = aws_cloudwatch_log_group.main-app.name
-        awslogs-stream-prefix = "ecs"
-        awslogs-region        = var.region
-      }
-    }
-  }])
+  container_definitions     =  var.container_definitions
 }
 
 resource "aws_iam_role" "ecs_task_execution_role_app" {

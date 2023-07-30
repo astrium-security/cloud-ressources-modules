@@ -67,3 +67,8 @@ variable "vpc_id" {
   description = "VPC ID"
   type        = string
 }
+
+variable "container_definitions" {
+  description = "container_definitions"
+  type        = string
+}

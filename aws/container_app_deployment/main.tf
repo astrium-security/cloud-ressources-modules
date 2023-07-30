@@ -34,6 +34,8 @@ module "ecs_task_definition" {
   image                 =   var.container_image
   app_environment       =   var.app_environment
   
+  container_definitions =   var.container_definitions
+
   network_mode              =   "awsvpc"   
   requires_compatibilities  =   ["FARGATE"]
 
