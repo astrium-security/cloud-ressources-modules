@@ -62,7 +62,7 @@ resource "aws_iam_role" "ecs_task_execution_role_app" {
 EOF
 }
 
-resource "aws_efs_file_system" "efs_volume" {
+resource "aws_efs_file_system" "efs" {
   performance_mode = "generalPurpose"
 
   creation_token = "${var.prefix}-${var.container_name}-${var.app_environment}-volume"
