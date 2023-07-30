@@ -56,7 +56,7 @@ variable "region" {
   default     = "us-east-1"
 }
 
-variable "container_definitions" {
-  description = "container_definitions"
-  type        = string
+variable "container_env" {
+  description = "container_env"
+  type        = any
 }

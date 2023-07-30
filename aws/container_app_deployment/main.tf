@@ -5,6 +5,7 @@ module "ecs_service" {
     app_environment       =   var.app_environment
     cluster_id            =   var.cluster_id
     task_definition_arn   =   module.ecs_task_definition.main_app_task_definition_arn
+
     desired_count         =   1
     launch_type           =   "FARGATE"
     scheduling_strategy   =   "REPLICA"
@@ -33,9 +34,9 @@ module "ecs_task_definition" {
   container_name        =   var.container_name
   image                 =   var.container_image
   app_environment       =   var.app_environment
-  
-  container_definitions =   var.container_definitions
 
+  container_env         =   var.container_env
+  
   network_mode              =   "awsvpc"   
   requires_compatibilities  =   ["FARGATE"]
 

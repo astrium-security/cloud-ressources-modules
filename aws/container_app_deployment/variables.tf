@@ -68,7 +68,7 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "container_definitions" {
-  description = "container_definitions"
-  type        = string
+variable "container_env" {
+  description = "container_env"
+  type        = any
 }
