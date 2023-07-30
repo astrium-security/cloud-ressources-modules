@@ -92,7 +92,8 @@ resource "aws_security_group" "ecs_container_security_group" {
 }
 
 resource "aws_security_group_rule" "ecs_loopback_rule" {
-  type                      = "${var.prefix}-${var.container_name}-${var.app_environment}-volume-isg"
+  name                      = "${var.prefix}-${var.container_name}-${var.app_environment}-volume-isg"
+  type                      =  "ingress"
   from_port                 = 0
   to_port                   = 0
   protocol                  = "-1"
