@@ -6,6 +6,14 @@ resource "aws_ecs_task_definition" "main_app" {
   memory                   = var.memory
   execution_role_arn       = aws_iam_role.ecs_task_execution_role_app.arn
   task_role_arn            = aws_iam_role.ecs_task_role_app.arn
+
+  volume {
+    name      = "efs"
+    efs_volume_configuration {
+      file_system_id = aws_efs_file_system.efs.id
+    }
+  }
+
   container_definitions = jsonencode([{
     name        = "${var.prefix}-${var.container_name}-${var.app_environment}-container"
     image       = var.image
@@ -48,6 +56,14 @@ resource "aws_iam_role" "ecs_task_execution_role_app" {
 }
 EOF
 }
+
+resource "aws_efs_file_system" "efs" {
+  creation_token = "${var.prefix}-${var.container_name}-${var.app_environment}-data"
+  tags = {
+    Name = "${var.prefix}-${var.container_name}-${var.app_environment}-data"
+  }
+}
+
 
 resource "aws_iam_role" "ecs_task_role_app" {
   name = "${var.prefix}-${var.container_name}-${var.app_environment}-ecsTask"
