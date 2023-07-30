@@ -81,7 +81,7 @@ resource "aws_efs_mount_target" "all" {
 resource "aws_security_group" "ecs_container_security_group" {
   name        = "${var.prefix}-${var.container_name}-${var.app_environment}-volume-osg"
   description = "Outbound Traffic Only"
-  vpc_id      = "${data.aws_vpc.vpc.id}"
+  vpc_id      = var.vpc_id
 
   egress {
     from_port       = 0
