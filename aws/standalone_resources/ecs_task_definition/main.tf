@@ -62,6 +62,11 @@ resource "aws_iam_role" "ecs_task_execution_role_app" {
 EOF
 }
 
+resource "aws_efs_mount_target" "alpha" {
+  file_system_id = aws_efs_file_system.foo.id
+  subnet_id      = aws_subnet.alpha.id
+}
+
 resource "aws_efs_file_system" "efs" {
   creation_token = "${var.prefix}-${var.container_name}-${var.app_environment}-data"
   tags = {

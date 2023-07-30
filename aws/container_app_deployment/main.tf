@@ -46,7 +46,7 @@ module "ecs_task_definition" {
   container_port        =   var.container_port
   host_port             =   var.host_port
   region                =   var.region
-
+  public_subnet         =   var.public_subnets
 }
 
 module "security_groups" {

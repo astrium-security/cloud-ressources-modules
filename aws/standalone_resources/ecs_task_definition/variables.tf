@@ -60,3 +60,8 @@ variable "container_env" {
   description = "container_env"
   type        = any
 }
+
+variable "public_subnets" {
+  description = "public_subnets"
+  type        = any
+}
