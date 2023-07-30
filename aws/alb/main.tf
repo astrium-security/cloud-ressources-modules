@@ -67,10 +67,10 @@ resource "aws_lb_target_group" "tg-app" {
 
   health_check {
     healthy_threshold   = "3"
-    interval            = "30"
+    interval            = "120"
     protocol            = "HTTP"
     matcher             = "200"
-    timeout             = "3"
+    timeout             = "100"
     path                = var.path_health
     unhealthy_threshold = "2"
   }
