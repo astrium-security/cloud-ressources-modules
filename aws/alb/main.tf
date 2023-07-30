@@ -1,6 +1,3 @@
-resource "random_id" "unique_id" {
-  byte_length = 4
-}
 
 data "aws_elb_service_account" "main_app" {}
 
@@ -62,7 +59,7 @@ resource "aws_lb_listener" "app_redirect" {
 }
 
 resource "aws_lb_target_group" "tg-app" {
-  name        = "${var.prefix}-${var.container_name}-${var.app_environment}-tg-${random_id.unique_id.hex}"
+  name        = "${var.prefix}-${var.container_name}-${var.app_environment}-tg"
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
