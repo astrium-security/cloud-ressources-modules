@@ -20,6 +20,11 @@ resource "aws_ecs_task_definition" "main_app" {
     essential   = true
     environment = var.container_env
 
+    mountPoints = [{
+      sourceVolume  = "efs"
+      containerPath = "/data"
+    }]
+
     portMappings = [{
       protocol      = "tcp"
       containerPort = var.container_port
