@@ -63,9 +63,9 @@ EOF
 }
 
 resource "aws_efs_mount_target" "all" {
-  for_each        = toset(var.public_subnets.ids)
+  count                   = length(var.public_subnets)
   file_system_id  = aws_efs_file_system.efs.id
-  subnet_id       = each.value
+  subnet_id       =  element(var.public_subnets, count.index)
 }
 
 resource "aws_efs_file_system" "efs" {
