@@ -1,3 +1,7 @@
+resource "random_id" "unique_id" {
+  byte_length = 8
+}
+
 data "aws_elb_service_account" "main_app" {}
 
 data "aws_route53_zone" "selected" {
@@ -58,7 +62,7 @@ resource "aws_lb_listener" "app_redirect" {
 }
 
 resource "aws_lb_target_group" "tg-app" {
-  name        = "${var.prefix}-${var.container_name}-${var.app_environment}-tg"
+  name        = "${var.prefix}-${var.container_name}-${var.app_environment}-tg-${random_id.unique_id.hex}"
   port        = var.container_port
   protocol    = "HTTP"
   target_type = "ip"
