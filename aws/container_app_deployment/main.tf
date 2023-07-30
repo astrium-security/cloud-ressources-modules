@@ -37,7 +37,7 @@ module "ecs_task_definition" {
   app_environment       =   var.app_environment
 
   container_env         =   var.container_env
-  
+  vpc_id                =   var.vpc_id
   network_mode              =   "awsvpc"   
   requires_compatibilities  =   ["FARGATE"]
 

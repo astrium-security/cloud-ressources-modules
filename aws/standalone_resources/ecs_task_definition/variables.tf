@@ -70,3 +70,8 @@ variable "security_group" {
   description = "security_group"
   type        = any
 }
+
+variable "vpc_id" {
+  description = "vpc_id"
+  type        = any
+}

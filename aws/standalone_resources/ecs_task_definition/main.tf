@@ -62,20 +62,43 @@ resource "aws_iam_role" "ecs_task_execution_role_app" {
 EOF
 }
 
+resource "aws_efs_file_system" "efs_volume" {
+  performance_mode = "generalPurpose"
+
+  creation_token = "${var.prefix}-${var.container_name}-${var.app_environment}-volume"
+  lifecycle_policy {
+    transition_to_ia = "AFTER_7_DAYS"
+  }
+}
+
 resource "aws_efs_mount_target" "all" {
   count          = length(var.public_subnets)
   file_system_id = aws_efs_file_system.efs.id
   subnet_id      = var.public_subnets[count.index].id
-  security_groups = var.security_group
+  security_groups = [aws_security_group.ecs_container_security_group.id]
 }
 
-resource "aws_efs_file_system" "efs" {
-  creation_token = "${var.prefix}-${var.container_name}-${var.app_environment}-data"
-  tags = {
-    Name = "${var.prefix}-${var.container_name}-${var.app_environment}-data"
+resource "aws_security_group" "ecs_container_security_group" {
+  name        = "${var.prefix}-${var.container_name}-${var.app_environment}-volume-osg"
+  description = "Outbound Traffic Only"
+  vpc_id      = "${data.aws_vpc.vpc.id}"
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
   }
 }
 
+resource "aws_security_group_rule" "ecs_loopback_rule" {
+  type                      = "${var.prefix}-${var.container_name}-${var.app_environment}-volume-isg"
+  from_port                 = 0
+  to_port                   = 0
+  protocol                  = "-1"
+  self                      = true
+  security_group_id         = "${aws_security_group.ecs_container_security_group.id}"
+}
 
 resource "aws_iam_role" "ecs_task_role_app" {
   name = "${var.prefix}-${var.container_name}-${var.app_environment}-ecsTask"
