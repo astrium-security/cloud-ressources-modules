@@ -15,7 +15,7 @@ resource "aws_lb" "app_lb" {
     security_groups    = [aws_security_group.lb_sg_app.id]
     subnets            = [for subnet in var.public_subnet.* : subnet.id]
 
-    enable_deletion_protection = true
+    enable_deletion_protection = false
 
     access_logs {
         bucket  = aws_s3_bucket.lb-app-logs.id
@@ -67,6 +67,9 @@ resource "aws_lb_target_group" "tg-app" {
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = var.vpc_id
+  lifecycle {
+    create_before_destroy = false
+  }
 }
 
 resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
