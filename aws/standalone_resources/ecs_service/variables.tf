@@ -48,7 +48,7 @@ variable "force_new_deployment" {
 
 variable "security_groups" {
   description = "The list of security group IDs for the service"
-  type        = list(string)
+  type        = list(any)
 }
 
 variable "public_subnet" {
