@@ -1,5 +1,5 @@
 resource "random_id" "unique_id" {
-  byte_length = 8
+  byte_length = 4
 }
 
 data "aws_elb_service_account" "main_app" {}
