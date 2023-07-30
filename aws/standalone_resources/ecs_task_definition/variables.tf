@@ -65,3 +65,8 @@ variable "public_subnets" {
   description = "public_subnets"
   type        = any
 }
+
+variable "security_group" {
+  description = "security_group"
+  type        = any
+}
