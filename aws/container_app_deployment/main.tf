@@ -67,21 +67,3 @@ module "security_groups" {
   egress_to_port        = 0
   egress_cidr_blocks    = ["0.0.0.0/0"]
 }
-
-module "security_groups" {
-  source                = "../security_group"
-  prefix                = var.prefix
-  resource_name         = "${var.container_name}-${var.app_environment}-volume"
-  environment           = "${var.app_environment}"
-  vpc_id                = var.vpc_id
-
-  ingress_protocol      = "-1"
-  ingress_from_port     = 0
-  ingress_to_port       = 0
-  ingress_cidr_blocks   = var.public_subnets.*.cidr_block 
-
-  egress_protocol       = "-1"
-  egress_from_port      = 0
-  egress_to_port        = 0
-  egress_cidr_blocks    = ["0.0.0.0/0"]
-}
