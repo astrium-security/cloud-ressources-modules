@@ -85,7 +85,7 @@ resource "aws_efs_mount_target" "all" {
 module "security_groups" {
   source                = "../security_group"
   prefix                = var.prefix
-  resource_name         = "${var.prefix}-${var.container_name}-${var.app_environment}-volume"
+  resource_name         = "${var.container_name}-${var.app_environment}-volume"
   environment           = "${var.app_environment}"
   vpc_id                = var.vpc_id
 
