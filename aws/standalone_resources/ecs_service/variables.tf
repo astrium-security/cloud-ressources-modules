@@ -69,6 +69,7 @@ variable "container_port" {
 variable "is_autoscale" {
   description = "is_autoscale"
   type        = bool
+  default     = false
 }
 
 variable "max_capacity_scale" {
