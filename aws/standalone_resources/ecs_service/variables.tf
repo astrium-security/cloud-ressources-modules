@@ -74,21 +74,25 @@ variable "is_autoscale" {
 variable "max_capacity_scale" {
   description = "max_capacity_scale"
   type        = number
+  default     = 2
 }
 
 variable "min_capacity_scale" {
   description = "min_capacity_scale"
   type        = number
+  default     = 1
 }
 
 variable "memory_val_threshold" {
   description = "memory_val_threshold"
   type        = number
+  default     = 80
 }
 
 variable "cpu_val_threshold" {
   description = "memory_val_threshold"
   type        = number
+  default     = 60
 }
 
 
