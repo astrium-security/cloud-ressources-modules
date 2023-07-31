@@ -22,7 +22,7 @@ resource "aws_ecs_task_definition" "main_app" {
 
     mountPoints = [{
       sourceVolume  = "efs"
-      containerPath = "/data/"
+      containerPath = "${var.mount_efs}"
     }]
 
     portMappings = [{

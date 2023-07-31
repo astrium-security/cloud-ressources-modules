@@ -77,3 +77,8 @@ variable "path_health" {
   description = "path_health"
   type        = string
 }
+
+variable "mount_efs" {
+  description = "mount_efs"
+  type        = string
+}

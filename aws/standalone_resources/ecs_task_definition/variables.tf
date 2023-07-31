@@ -75,3 +75,9 @@ variable "vpc_id" {
   description = "vpc_id"
   type        = any
 }
+
+variable "mount_efs" {
+  description = "mount_efs"
+  type        = any
+}
+
