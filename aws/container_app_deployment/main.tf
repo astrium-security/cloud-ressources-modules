@@ -3,7 +3,7 @@ module "ecs_service" {
     prefix                =   var.prefix
     container_name        =   var.container_name
     app_environment       =   var.app_environment
-    cluster_id            =   var.cluster_id
+    cluster               =   var.cluster
     task_definition_arn   =   module.ecs_task_definition.main_app_task_definition_arn
 
     desired_count         =   1
@@ -14,6 +14,13 @@ module "ecs_service" {
     public_subnet         =   var.public_subnets
     target_group_arn      =   module.alb.aws_lb_target_group_arn
     container_port        =   var.container_port
+
+    is_autoscale          = var.is_autoscale
+
+    cpu_val_threshold     = var.cpu_val_threshold
+    memory_val_threshold  = var.memory_val_threshold
+    min_capacity_scale    = var.min_capacity_scale
+    max_capacity_scale    = var.max_capacity_scale
 }
 
 module "alb" {

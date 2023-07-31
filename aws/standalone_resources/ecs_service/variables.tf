@@ -65,3 +65,30 @@ variable "container_port" {
   description = "The port on which the container is listening"
   type        = number
 }
+
+variable "is_autoscale" {
+  description = "is_autoscale"
+  type        = bool
+}
+
+variable "max_capacity_scale" {
+  description = "max_capacity_scale"
+  type        = number
+}
+
+variable "min_capacity_scale" {
+  description = "min_capacity_scale"
+  type        = number
+}
+
+variable "memory_val_threshold" {
+  description = "memory_val_threshold"
+  type        = number
+}
+
+variable "cpu_val_threshold" {
+  description = "memory_val_threshold"
+  type        = number
+}
+
+

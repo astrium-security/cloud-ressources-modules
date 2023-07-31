@@ -13,7 +13,7 @@ variable "app_environment" {
   type        = string
 }
 
-variable "cluster_id" {
+variable "cluster" {
   description = "ID of the ECS cluster"
   type        = string
 }
@@ -81,4 +81,29 @@ variable "path_health" {
 variable "mount_efs" {
   description = "mount_efs"
   type        = string
+}
+
+variable "is_autoscale" {
+  description = "is_autoscale"
+  type        = bool
+}
+
+variable "max_capacity_scale" {
+  description = "max_capacity_scale"
+  type        = number
+}
+
+variable "min_capacity_scale" {
+  description = "min_capacity_scale"
+  type        = number
+}
+
+variable "memory_val_threshold" {
+  description = "memory_val_threshold"
+  type        = number
+}
+
+variable "cpu_val_threshold" {
+  description = "memory_val_threshold"
+  type        = number
 }
