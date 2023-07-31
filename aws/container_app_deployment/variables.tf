@@ -15,7 +15,7 @@ variable "app_environment" {
 
 variable "cluster" {
   description = "ID of the ECS cluster"
-  type        = string
+  type        = any
 }
 
 variable "container_port" {

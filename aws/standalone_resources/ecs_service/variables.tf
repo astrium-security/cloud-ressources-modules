@@ -15,7 +15,7 @@ variable "app_environment" {
 
 variable "cluster" {
   description = "The ID of the ECS cluster"
-  type        = string
+  type        = any
 }
 
 variable "task_definition_arn" {
