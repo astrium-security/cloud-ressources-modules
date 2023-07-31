@@ -131,5 +131,5 @@ resource "aws_iam_role_policy_attachment" "ecs-task-execution-app-role-policy-at
 }
 
 resource "aws_cloudwatch_log_group" "main-app" {
-  name = "${var.prefix}/${var.app_environment}/${var.container_name}/"
+  name = "/app/${var.prefix}/${var.app_environment}/${var.container_name}/"
 }
