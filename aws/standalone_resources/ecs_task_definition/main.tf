@@ -22,7 +22,7 @@ resource "aws_ecs_task_definition" "main_app" {
 
     mountPoints = [{
       sourceVolume  = "efs"
-      containerPath = "/data"
+      containerPath = "/data/"
     }]
 
     portMappings = [{
@@ -69,35 +69,35 @@ resource "aws_efs_file_system" "efs" {
   lifecycle_policy {
     transition_to_ia = "AFTER_7_DAYS"
   }
+
+  tags = {
+    Name = "${var.prefix}-${var.container_name}-${var.app_environment}-volume"
+  }
 }
 
 resource "aws_efs_mount_target" "all" {
   count          = length(var.public_subnets)
   file_system_id = aws_efs_file_system.efs.id
   subnet_id      = var.public_subnets[count.index].id
-  security_groups = [aws_security_group.ecs_container_security_group.id]
+  security_groups = [module.security_groups.id]
 }
 
-resource "aws_security_group" "ecs_container_security_group" {
-  name        = "${var.prefix}-${var.container_name}-${var.app_environment}-volume-osg"
-  description = "Outbound Traffic Only"
-  vpc_id      = var.vpc_id
+module "security_groups" {
+  source                = "../security_group"
+  prefix                = var.prefix
+  resource_name         = "${var.prefix}-${var.container_name}-${var.app_environment}-volume"
+  environment           = "${var.app_environment}"
+  vpc_id                = var.vpc_id
 
-  egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
-  }
-}
+  ingress_protocol      = "-1"
+  ingress_from_port     = 0
+  ingress_to_port       = 0
+  ingress_cidr_blocks   = var.public_subnets.*.cidr_block 
 
-resource "aws_security_group_rule" "ecs_loopback_rule" {
-  type                      =  "ingress"
-  from_port                 = 0
-  to_port                   = 0
-  protocol                  = "-1"
-  self                      = true
-  security_group_id         = "${aws_security_group.ecs_container_security_group.id}"
+  egress_protocol       = "-1"
+  egress_from_port      = 0
+  egress_to_port        = 0
+  egress_cidr_blocks    = ["0.0.0.0/0"]
 }
 
 resource "aws_iam_role" "ecs_task_role_app" {
