@@ -13,7 +13,7 @@ variable "app_environment" {
   type        = string
 }
 
-variable "cluster_id" {
+variable "cluster" {
   description = "The ID of the ECS cluster"
   type        = string
 }
