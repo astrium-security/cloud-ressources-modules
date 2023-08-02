@@ -8,8 +8,6 @@ terraform {
     }
 }
 
-provider "cloudflare" {}
-
 resource "random_id" "secret" {
   byte_length = 32
 }
