@@ -3,6 +3,11 @@ variable "cloudflare_account_id" {
   type        = string
 }
 
+variable "cloudflare_zone_id" {
+  type = string
+  default = ""
+}
+
 variable "prefix" {
   description = "The prefix to use for naming resources."
   type        = string
