@@ -23,7 +23,7 @@ resource "aws_route53_record" "internal_record" {
 
 resource "cloudflare_record" "new_record" {
   zone_id = var.cloudflare_zone_id
-  name    = "${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${var.cloudflare_zone_id.name}"
+  name    = "${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name}"
   value   = var.targets
   type    = var.type_record
   ttl     = 3600
