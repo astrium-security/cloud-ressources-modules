@@ -12,10 +12,6 @@ data "cloudflare_zone" "domain" {
   zone_id = var.cloudflare_zone_id
 }
 
-data "cloudflare_origin_ca_root_certificate" "origin_ca" {
-  algorithm = "RSA"
-}
-
 resource "cloudflare_zone_settings_override" "cert-com-settings" {
   zone_id = var.cloudflare_zone_id
 
@@ -25,27 +21,6 @@ resource "cloudflare_zone_settings_override" "cert-com-settings" {
     ssl                      = "strict"
   }
 }
-
-resource "tls_private_key" "cert" {
-  algorithm = "RSA"
-}
-
-resource "tls_cert_request" "cert" {
-  private_key_pem = tls_private_key.cert.private_key_pem
-}
-
-resource "cloudflare_origin_ca_certificate" "cert" {
-    csr                = tls_cert_request.cert.cert_request_pem
-
-    hostnames          = [ 
-      "*.system.${data.cloudflare_zone.domain.name}",
-      "${data.cloudflare_zone.domain.name}"
-    ]
-
-    request_type       = "origin-rsa"
-    requested_validity = 5475    
-}
-
 
 resource "random_string" "argo_tunnel_password" {
   length  = 32
