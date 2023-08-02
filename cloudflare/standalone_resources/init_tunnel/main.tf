@@ -1,12 +1,12 @@
-#terraform {
-#  required_version = ">= 1.5.2"
-#    required_providers {
-#      cloudflare = {
-#        source  = "registry.terraform.io/cloudflare/cloudflare"
-#        version = "~> 4.10.0"
-#      }
-#    }
-#}
+terraform {
+  required_version = ">= 1.5.2"
+    required_providers {
+      cloudflare = {
+        source  = "registry.terraform.io/cloudflare/cloudflare"
+        version = "~> 4.10.0"
+      }
+    }
+}
 
 #data "cloudflare_origin_ca_root_certificate" "origin_ca" {
 #  algorithm = "RSA"
