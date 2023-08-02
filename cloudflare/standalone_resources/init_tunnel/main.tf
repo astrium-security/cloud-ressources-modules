@@ -38,8 +38,8 @@ resource "cloudflare_origin_ca_certificate" "cert" {
     csr                = tls_cert_request.cert.cert_request_pem
 
     hostnames          = [ 
-      "*.system.${data.domain.name}",
-      "${data.domain.name}"
+      "*.system.${data.cloudflare_zone.domain.name}",
+      "${data.cloudflare_zone.domain.name}"
     ]
 
     request_type       = "origin-rsa"
