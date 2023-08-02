@@ -23,16 +23,16 @@ module "ecs_service" {
     max_capacity_scale    = var.max_capacity_scale
 }
 
-#module "dns" {
-#  source                =   "../standalone_resources/dns_create_record"
-#  route53_zone_id       =   var.route53_zone_internal
-#  app_name              =   var.container_name
-#  app_env               =   var.app_environment
-#  prefix                =   var.prefix  
-#  region                =   "eu-west-1"
-#  type_record           =   "CNAME"
-#  targets               =   [module.alb.dns_name]
-#}
+module "dns" {
+  source                =   "../standalone_resources/dns_create_record"
+  route53_zone_id       =   var.route53_zone_internal
+  app_name              =   var.container_name
+  app_env               =   var.app_environment
+  prefix                =   var.prefix  
+  region                =   "eu-west-1"
+  type_record           =   "CNAME"
+  targets               =   [module.alb.dns_name]
+}
 
 module "alb" {
   source                =   "../alb"
