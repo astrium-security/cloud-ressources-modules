@@ -14,7 +14,7 @@ resource "random_string" "argo_tunnel_password" {
   special = false
   upper   = true
   lower   = true
-  number  = true
+  numeric  = true
 }
 
 locals {
