@@ -28,7 +28,8 @@ module "dns" {
   route53_zone_id       =   var.route53_zone_internal
   app_name              =   var.container_name
   app_env               =   var.app_environment
-  prefix                =   var.prefix  
+  prefix                =   var.prefix
+  cloudflare_zone_id    =   var.cloudflare_zone_id
   region                =   "eu-west-1"
   type_record           =   "CNAME"
   targets               =   [module.alb.dns_name]

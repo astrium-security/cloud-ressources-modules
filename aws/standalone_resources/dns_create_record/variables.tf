@@ -33,9 +33,7 @@ variable "targets" {
   type        = list(string)
 }
 
-/*
 variable "cloudflare_zone_id" {
   description = "The ID of the hosted zone to contain this record in Cloudflare."
   type        = string
 }
-*/

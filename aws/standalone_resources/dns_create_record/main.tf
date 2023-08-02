@@ -9,6 +9,10 @@ terraform {
     }
 }
 
+data "cloudflare_zone" "domain" {
+  zone_id = var.cloudflare_zone_id
+}
+
 resource "aws_route53_record" "internal_record" {
   zone_id = var.route53_zone_id.id
   name    = "${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${var.route53_zone_id.name}"

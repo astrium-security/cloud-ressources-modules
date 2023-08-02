@@ -117,3 +117,8 @@ variable "route53_zone_internal" {
   description = "route53_zone_internal"
   type        = any
 }
+
+variable "cloudflare_zone_id" {
+  description = "The ID of the hosted zone to contain this record in Cloudflare."
+  type        = string
+}
