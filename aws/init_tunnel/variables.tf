@@ -3,9 +3,9 @@ variable "public_subnets" {
   type        = any
 }
 
-variable "cloudflare_token" {
-  description = "Cloudflare token for cloudflared service"
-  type        = string
+variable "cloudflare_token_64" {
+  type = string
+  default = ""
 }
 
 variable "prefix" {
