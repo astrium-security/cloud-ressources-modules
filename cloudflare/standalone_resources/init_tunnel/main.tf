@@ -8,12 +8,21 @@ terraform {
     }
 }
 
-resource "random_id" "secret" {
-  byte_length = 32
+
+resource "random_string" "argo_tunnel_password" {
+  length  = 32
+  special = false
+  upper   = true
+  lower   = true
+  number  = true
+}
+
+locals {
+  encoded_argo_tunnel_password = base64encode(random_string.argo_tunnel_password.result)
 }
 
 resource "cloudflare_tunnel" "tunnel" {
   account_id = var.cloudflare_account_id
   name       = "${var.prefix}-${var.infra_environment}-${var.region}"
-  secret     = base64encode(random_id.secret.b64_url)
+  secret     = local.encoded_argo_tunnel_password
 }
