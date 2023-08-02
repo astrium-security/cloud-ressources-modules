@@ -1,6 +1,6 @@
 variable "route53_zone_id" {
   description = "The ID of the hosted zone to contain this record."
-  type        = string
+  type        = any
 }
 
 variable "app_name" {
