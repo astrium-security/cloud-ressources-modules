@@ -7,7 +7,7 @@ data "aws_route53_zone" "selected" {
 
 resource "aws_lb" "app_lb" {
     name               = "${var.prefix}-${var.container_name}-${var.app_environment}-alb"
-    internal           = false
+    internal           = true
     load_balancer_type = "application"
     security_groups    = [aws_security_group.lb_sg_app.id]
     subnets            = [for subnet in var.public_subnet.* : subnet.id]

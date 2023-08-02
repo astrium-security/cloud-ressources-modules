@@ -112,3 +112,8 @@ variable "cpu_val_threshold" {
   type        = number
   default     = 60
 }
+
+variable "route53_zone_internal" {
+  description = "route53_zone_internal"
+  type        = any
+}
