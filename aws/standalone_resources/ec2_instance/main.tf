@@ -20,6 +20,6 @@ resource "aws_instance" "simple-instance" {
   }
 
   tags = {
-    Name = "${var.instance_name}-${count.index}"
+    Name = "${var.instance_name}"
   }
 }

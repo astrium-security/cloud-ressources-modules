@@ -1,13 +1,15 @@
 module "create_instance" {
   source                     = "../standalone_resources/ec2_instance"
+  count                      = length(var.public_subnets)
+
   total_instance_to_create   = 1
 
-  instance_name              = "cf-tunnel"
+  instance_name              = "cf-tunnel-${count.index}"
   
   default_ami                = "ami-0f06e9c59c95f3773"
   instance_type              = "t2.micro"
 
-  subnet_id                  = var.public_subnets[0].id 
+  subnet_id                  = var.public_subnets[count.index].id 
   security_group             = [module.security_groups.id]
   set_public_ip_address      = true
 
