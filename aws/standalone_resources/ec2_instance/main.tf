@@ -11,7 +11,6 @@ resource "aws_instance" "simple-instance" {
   key_name                    = var.key_name
   user_data                   = var.user_data
   
-  # root disk
   root_block_device {
     volume_size           = var.volume_size
     volume_type           = var.root_volume_type
