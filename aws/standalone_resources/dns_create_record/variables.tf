@@ -30,7 +30,7 @@ variable "type_record" {
 
 variable "targets" {
   description = "A list of IP addresses or domains that this record will resolve to."
-  type        = list(string)
+  type        = any
 }
 
 variable "cloudflare_zone_id" {
