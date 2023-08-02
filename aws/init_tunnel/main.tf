@@ -11,7 +11,7 @@ module "create_instance" {
   security_group             = [module.security_groups.id]
   set_public_ip_address      = true
 
-  key_name                   = "my_keypair"
+  key_name                   = "sacha"
   user_data                  = <<EOF
 #!/bin/bash -xe
 curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && 
