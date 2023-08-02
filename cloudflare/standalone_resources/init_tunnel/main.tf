@@ -1,3 +1,15 @@
+terraform {
+  required_version = ">= 1.5.2"
+    required_providers {
+      cloudflare = {
+        source  = "registry.terraform.io/cloudflare/cloudflare"
+        version = "~> 4.10.0"
+      }
+    }
+}
+
+provider "cloudflare" {}
+
 resource "random_id" "secret" {
   byte_length = 32
 }
