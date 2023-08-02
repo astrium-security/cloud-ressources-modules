@@ -12,11 +12,12 @@ module "create_instance" {
   set_public_ip_address      = true
 
   key_name                   = "sacha"
-  user_data                  = <<EOF
+  user_data                   = <<EOF
 #!/bin/bash -xe
+sleep 10
 curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && 
 sudo dpkg -i cloudflared.deb && 
-sudo cloudflared service install ${base64encode(var.cloudflare_token_64)}" 
+sudo cloudflared service install ${var.cloudflare_token_64}
 EOF
 
   volume_size                = 8
