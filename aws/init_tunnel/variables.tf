@@ -8,6 +8,11 @@ variable "cloudflare_token_64" {
   default = ""
 }
 
+variable "cloudflare_zone_id" {
+  type = string
+  default = ""
+}
+
 variable "prefix" {
   description = "Prefix used to name the security group"
   type        = string

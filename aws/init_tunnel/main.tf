@@ -1,3 +1,17 @@
+data "cloudflare_origin_ca_root_certificate" "origin_ca" {
+  algorithm = "RSA"
+}
+
+resource "cloudflare_zone_settings_override" "cert-com-settings" {
+  zone_id = var.cloudflare_zone_id
+
+  settings {
+    tls_1_3                  = "on"
+    automatic_https_rewrites = "on"
+    ssl                      = "strict"
+  }
+}
+
 module "create_instance" {
   source                     = "../standalone_resources/ec2_instance"
   count                      = length(var.public_subnets)
