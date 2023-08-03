@@ -6,12 +6,12 @@ resource "aws_ecs_task_definition" "main_app" {
   memory                   = var.memory
   execution_role_arn       = aws_iam_role.ecs_task_execution_role_app.arn
   task_role_arn            = aws_iam_role.ecs_task_role_app.arn
+  source_volume            = "efs"
 
   volume {
     name      = "efs"
     efs_volume_configuration {
       file_system_id = aws_efs_file_system.efs.id
-      root_directory = "/"
       transit_encryption = "ENABLED"
 
       authorization_config {
