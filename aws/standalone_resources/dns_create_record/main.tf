@@ -30,52 +30,8 @@ resource "cloudflare_record" "new_record" {
   allow_overwrite = true
   ttl     = 1
   provisioner "local-exec" {
-    interpreter = ["/usr/bin/python3"]
     command = <<EOF
-import requests
-import sys
-import json
-import os
-
-url = "https://api.cloudflare.com/client/v4/accounts/${data.cloudflare_zone.domain.account_id}/cfd_tunnel/${var.cloudflare_tunnel.tunnel_object.id}/configurations"
-
-headers = {
-  'Authorization': 'Bearer ' + os.getenv('CLOUDFLARE_API_TOKEN'),
-  'Content-Type': 'application/json'
-}
-
-response = requests.request("GET", url, headers=headers)
-response = json.loads(response.text)
-
-array = response["result"]["config"]["ingress"]
-
-# Check if service exists already
-service_exists = False
-for item in array:
-    if 'hostname' in item and item['hostname'] == '${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name}':
-        item['service'] = ${var.targets[0]}
-        service_exists = True
-        break
-
-# If service does not exist, append new configuration
-if not service_exists:
-    array.insert(0, {'service': ${var.targets[0]}, 'hostname': '${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name}'})
-
-payload = json.dumps({
-  "config": {
-    "originRequest": {
-      "connectTimeout": 10
-    },
-    "ingress": array
-  }
-})
-
-response = requests.request("PUT", url, headers=headers, data=payload)
-EOF
-  }
-  provisioner "local-exec" {
-    command = <<EOF
-python3 ingress.py ${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name} http://${var.targets[0]}
+python3 ${path.module}/ingress.py ${data.cloudflare_zone.domain.account_id} ${var.cloudflare_tunnel.tunnel_object.id} ${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name} http://${var.targets[0]}
 EOF
   }
 }
