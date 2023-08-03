@@ -117,7 +117,7 @@ resource "aws_iam_policy" "efs_access" {
 }
 
 resource "aws_iam_role_policy_attachment" "efs_access" {
-  role       = aws_iam_role.task.name
+  role       = aws_iam_role.ecs_task_execution_role_app.name
   policy_arn = aws_iam_policy.efs_access.arn
 }
 
