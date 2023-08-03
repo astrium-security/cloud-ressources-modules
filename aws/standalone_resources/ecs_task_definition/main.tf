@@ -11,6 +11,11 @@ resource "aws_ecs_task_definition" "main_app" {
     name      = "efs"
     efs_volume_configuration {
       file_system_id = aws_efs_file_system.efs.id
+      creation_info {
+        owner_gid = 1000
+        uid = 1000
+        permissions = 775
+      }
     }
   }
 
