@@ -21,40 +21,14 @@ resource "aws_lb" "app_lb" {
     }
 }
 
-resource "aws_route53_record" "www_app" {
-  zone_id = var.route53_zone_id
-  name    = "${var.container_name}.${data.aws_route53_zone.selected.name}"
-  type    = "CNAME"
-  ttl     = 300
-  records = [aws_lb.app_lb.dns_name]
-}
-
-resource "aws_lb_listener" "app" {
-  load_balancer_arn = aws_lb.app_lb.arn
-  port              = "443"
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = var.certificate_arn
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.tg-app.arn
-  }
-}
-
 resource "aws_lb_listener" "app_redirect" {
   load_balancer_arn = aws_lb.app_lb.arn
   port              = "80"
   protocol          = "HTTP"
 
   default_action {
-    type = "redirect"
-
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.tg-app.arn
   }
 }
 
@@ -77,21 +51,6 @@ resource "aws_lb_target_group" "tg-app" {
 
   lifecycle {
     create_before_destroy = false
-  }
-}
-
-resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
-  listener_arn = aws_lb_listener.app.arn
-  
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.tg-app.arn
-  }
-
-  condition {
-    host_header {
-      values = ["${var.container_name}.${data.aws_route53_zone.selected.name}"]
-    }
   }
 }
 

@@ -34,6 +34,7 @@ module "dns" {
   region                =   "eu-west-1"
   type_record           =   "CNAME"
   targets               =   [module.alb.dns_name]
+  alb                   =   module.alb
 }
 
 module "alb" {

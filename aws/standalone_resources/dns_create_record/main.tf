@@ -36,7 +36,21 @@ EOF
   }
 }
 
-# Add ingress
+# Add host rule
+resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
+  listener_arn = var.alb.aws_lb_listener.app.arn
+  
+  action {
+    type             = "forward"
+    target_group_arn = var.alb.aws_lb_target_group.tg-app.arn
+  }
+
+  condition {
+    host_header {
+      values = ["${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name}"]
+    }
+  }
+}
 
 data "cloudflare_origin_ca_root_certificate" "origin_ca" {
   algorithm = "RSA"
@@ -58,18 +72,3 @@ resource "cloudflare_origin_ca_certificate" "cert" {
     request_type       = "origin-rsa"
     requested_validity = 5475    
 }
-
-#resource "cloudflare_certificate_pack" "cert" {
-#  zone_id = var.cloudflare_zone_id
-#  type                   = "advanced"
-#  hosts                  = cloudflare_origin_ca_certificate.cert.hostnames
-#  validation_method      = "txt"
-#  validity_days          = 90
-#  certificate_authority   = "digicert"
-#  cloudflare_branding    = false
-#  wait_for_active_status = true
-
-#  lifecycle {
-#    create_before_destroy = true
-#  }
-#}
