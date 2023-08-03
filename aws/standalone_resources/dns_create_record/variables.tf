@@ -37,3 +37,8 @@ variable "cloudflare_zone_id" {
   description = "The ID of the hosted zone to contain this record in Cloudflare."
   type        = string
 }
+
+variable "cloudflare_tunnel_cname" {
+  description = "The cname of the hosted zone to contain this record in Cloudflare."
+  type        = string
+}
