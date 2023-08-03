@@ -123,7 +123,7 @@ variable "cloudflare_zone_id" {
   type        = string
 }
 
-variable "cloudflare_tunnel_cname" {
-  description = "cloudflare_tunnel_cname"
+variable "cloudflare_tunnel" {
+  description = "cloudflare_tunnel"
   type        = string
 }

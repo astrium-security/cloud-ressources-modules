@@ -1,3 +1,9 @@
+output "tunnel_object" {
+  description = "L'objet du tunnel Cloudflare."
+  value       = cloudflare_tunnel.tunnel
+}
+
+
 output "tunnel_id" {
   description = "L'ID du tunnel Cloudflare."
   value       = cloudflare_tunnel.tunnel.id

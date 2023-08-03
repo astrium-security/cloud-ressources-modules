@@ -30,7 +30,7 @@ module "dns" {
   app_env               =   var.app_environment
   prefix                =   var.prefix
   cloudflare_zone_id    =   var.cloudflare_zone_id
-  cloudflare_tunnel_cname = var.cloudflare_tunnel_cname
+  cloudflare_tunnel     =   var.cloudflare_tunnel
   region                =   "eu-west-1"
   type_record           =   "CNAME"
   targets               =   [module.alb.dns_name]
