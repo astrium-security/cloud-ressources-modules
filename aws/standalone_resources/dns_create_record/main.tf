@@ -23,7 +23,7 @@ resource "aws_route53_record" "internal_record" {
 
 resource "cloudflare_record" "new_record" {
   zone_id = var.cloudflare_zone_id
-  name    = "${var.app_name}1.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name}"
+  name    = "${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name}"
   value   = var.cloudflare_tunnel.tunnel_cname
   type    = var.type_record
   proxied = true
@@ -52,14 +52,14 @@ array = response["result"]["config"]["ingress"]
 # Check if service exists already
 service_exists = False
 for item in array:
-    if 'hostname' in item and item['hostname'] == sys.argv[3]:
-        item['service'] = sys.argv[4]
+    if 'hostname' in item and item['hostname'] == '${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name}':
+        item['service'] = ${var.targets[0]}
         service_exists = True
         break
 
 # If service does not exist, append new configuration
 if not service_exists:
-    array.insert(0, {'service': sys.argv[4], 'hostname': sys.argv[3]})
+    array.insert(0, {'service': ${var.targets[0]}, 'hostname': '${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name}'})
 
 payload = json.dumps({
   "config": {
