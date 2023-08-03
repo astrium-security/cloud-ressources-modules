@@ -51,17 +51,17 @@ resource "cloudflare_origin_ca_certificate" "cert" {
     requested_validity = 5475    
 }
 
-resource "cloudflare_certificate_pack" "cert" {
-  zone_id = var.cloudflare_zone_id
-  type                   = "advanced"
-  hosts                  = cloudflare_origin_ca_certificate.cert.hostnames
-  validation_method      = "txt"
-  validity_days          = 90
-  certificate_authority   = "digicert"
-  cloudflare_branding    = false
-  wait_for_active_status = true
+#resource "cloudflare_certificate_pack" "cert" {
+#  zone_id = var.cloudflare_zone_id
+#  type                   = "advanced"
+#  hosts                  = cloudflare_origin_ca_certificate.cert.hostnames
+#  validation_method      = "txt"
+#  validity_days          = 90
+#  certificate_authority   = "digicert"
+#  cloudflare_branding    = false
+#  wait_for_active_status = true
 
-  lifecycle {
-    create_before_destroy = true
-  }
-}
+#  lifecycle {
+#    create_before_destroy = true
+#  }
+#}
