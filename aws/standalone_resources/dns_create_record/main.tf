@@ -24,7 +24,7 @@ resource "aws_route53_record" "internal_record" {
 resource "cloudflare_record" "new_record" {
   zone_id = var.cloudflare_zone_id
   name    = "${var.app_name}1.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name}"
-  value   = var.cloudflare_tunnel.cname
+  value   = var.cloudflare_tunnel.tunnel_cname
   type    = var.type_record
   proxied = true
   allow_overwrite = true
