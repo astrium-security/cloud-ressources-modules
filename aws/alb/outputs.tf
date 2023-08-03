@@ -12,3 +12,9 @@ output "object" {
   description = "The ID of the security group"
   value       = aws_lb.app_lb.dns_name
 }
+
+
+output "aws_lb_listener_rule_app_arn" {
+  description = "aws_lb_target_group_arn"
+  value = aws_lb_listener.app.arn
+}

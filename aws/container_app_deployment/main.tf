@@ -36,13 +36,12 @@ module "dns" {
   targets               =   [module.alb.dns_name]
 }
 
-# Add host rule
 resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
-  listener_arn = module.alb.aws_lb_listener.app.arn
+  listener_arn = module.alb.aws_lb_listener_rule_app_arn
   
   action {
     type             = "forward"
-    target_group_arn = module.alb.aws_lb_target_group.tg-app.arn
+    target_group_arn = module.alb.aws_lb_target_group_arn
   }
 
   condition {
