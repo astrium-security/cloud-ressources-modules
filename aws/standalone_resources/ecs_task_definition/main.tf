@@ -57,7 +57,7 @@ resource "aws_efs_access_point" "this" {
   }
 
   root_directory {
-    path = "${var.mount_efs}"
+    path = "/"
 
     creation_info {
       owner_gid   = 1000
