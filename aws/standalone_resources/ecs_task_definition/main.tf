@@ -57,7 +57,7 @@ resource "aws_efs_access_point" "this" {
   }
 
   root_directory {
-    path = "/"
+    path = "/home"
 
     creation_info {
       owner_gid   = 1000
@@ -143,7 +143,7 @@ EOF
 
 resource "aws_efs_file_system" "efs" {
   performance_mode = "generalPurpose"
-  
+  throughput_mode  = "bursting"
   creation_token = "${var.prefix}-${var.container_name}-${var.app_environment}-volume"
   encrypted      = true
 
