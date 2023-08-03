@@ -29,7 +29,14 @@ resource "cloudflare_record" "new_record" {
   proxied = true
   allow_overwrite = true
   ttl     = 1
+  provisioner "local-exec" {
+    command = <<EOF
+python3 ingress.py ${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name} http://${var.targets[0]}
+EOF
+  }
 }
+
+# Add ingress
 
 data "cloudflare_origin_ca_root_certificate" "origin_ca" {
   algorithm = "RSA"
