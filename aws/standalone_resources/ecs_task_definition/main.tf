@@ -11,7 +11,7 @@ resource "aws_ecs_task_definition" "main_app" {
     name      = "efs"
     efs_volume_configuration {
       file_system_id = aws_efs_file_system.efs.id
-      root_directory = "${var.mount_efs}"
+      root_directory = "/"
       transit_encryption = "ENABLED"
 
       authorization_config {
@@ -58,7 +58,7 @@ resource "aws_efs_access_point" "this" {
   }
 
   root_directory {
-    path = "${var.mount_efs}"
+    path = "/"
 
     creation_info {
       owner_gid   = 1000
