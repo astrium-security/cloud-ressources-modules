@@ -52,8 +52,8 @@ resource "aws_efs_access_point" "this" {
   file_system_id = aws_efs_file_system.efs.id
 
   posix_user {
-    gid = 0
-    uid = 0
+    gid = 1000
+    uid = 1000
   }
 
   root_directory {
