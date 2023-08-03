@@ -37,7 +37,7 @@ import sys
 import json
 import os
 
-url = "https://api.cloudflare.com/client/v4/accounts/${var.cloudflare_zone.domain.account_id}/cfd_tunnel/"+sys.argv[2]+"/configurations"
+url = "https://api.cloudflare.com/client/v4/accounts/${data.cloudflare_zone.domain.account_id}/cfd_tunnel/${var.cloudflare_tunnel.id}/configurations"
 
 headers = {
   'Authorization': 'Bearer ' + os.getenv('CLOUDFLARE_API_TOKEN'),
