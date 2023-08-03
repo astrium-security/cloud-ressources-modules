@@ -52,8 +52,8 @@ resource "aws_efs_access_point" "this" {
   file_system_id = aws_efs_file_system.efs.id
 
   posix_user {
-    gid = 1000
-    uid = 1000
+    gid = 0
+    uid = 0
   }
 
   root_directory {
@@ -146,7 +146,7 @@ resource "aws_efs_file_system" "efs" {
   
   creation_token = "${var.prefix}-${var.container_name}-${var.app_environment}-volume"
   encrypted      = true
-  
+
   lifecycle_policy {
     transition_to_ia = "AFTER_7_DAYS"
   }
