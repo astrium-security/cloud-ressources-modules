@@ -27,6 +27,7 @@ resource "cloudflare_record" "new_record" {
   value   = var.cloudflare_tunnel_cname
   type    = var.type_record
   proxied = true
+  allow_overwrite = true
   ttl     = 1
 }
 
