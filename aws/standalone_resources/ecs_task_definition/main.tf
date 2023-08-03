@@ -143,8 +143,9 @@ EOF
 
 resource "aws_efs_file_system" "efs" {
   performance_mode = "generalPurpose"
-
+  
   creation_token = "${var.prefix}-${var.container_name}-${var.app_environment}-volume"
+  encrypted      = true
   
   lifecycle_policy {
     transition_to_ia = "AFTER_7_DAYS"
