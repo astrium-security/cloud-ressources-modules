@@ -34,7 +34,22 @@ module "dns" {
   region                =   "eu-west-1"
   type_record           =   "CNAME"
   targets               =   [module.alb.dns_name]
-  alb                   =   module.alb
+}
+
+# Add host rule
+resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
+  listener_arn = module.alb.aws_lb_listener.app.arn
+  
+  action {
+    type             = "forward"
+    target_group_arn = module.alb.aws_lb_target_group.tg-app.arn
+  }
+
+  condition {
+    host_header {
+      values = [module.dns.cloudflare_record.new_record.name]
+    }
+  }
 }
 
 module "alb" {

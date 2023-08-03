@@ -36,22 +36,6 @@ EOF
   }
 }
 
-# Add host rule
-resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
-  listener_arn = var.alb.aws_lb_listener.app.arn
-  
-  action {
-    type             = "forward"
-    target_group_arn = var.alb.aws_lb_target_group.tg-app.arn
-  }
-
-  condition {
-    host_header {
-      values = ["${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name}"]
-    }
-  }
-}
-
 data "cloudflare_origin_ca_root_certificate" "origin_ca" {
   algorithm = "RSA"
 }
