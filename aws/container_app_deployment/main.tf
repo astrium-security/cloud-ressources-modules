@@ -46,7 +46,7 @@ resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
 
   condition {
     host_header {
-      values = [module.dns.cloudflare_record.new_record.name]
+      values = [module.dns.cf_name]
     }
   }
 }
