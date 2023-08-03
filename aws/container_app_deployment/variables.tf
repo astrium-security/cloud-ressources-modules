@@ -125,5 +125,5 @@ variable "cloudflare_zone_id" {
 
 variable "cloudflare_tunnel" {
   description = "cloudflare_tunnel"
-  type        = string
+  type        = any
 }

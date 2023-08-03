@@ -40,5 +40,5 @@ variable "cloudflare_zone_id" {
 
 variable "cloudflare_tunnel" {
   description = "The object of the hosted zone to contain this record in Cloudflare."
-  type        = string
+  type        = any
 }
