@@ -27,7 +27,7 @@ resource "cloudflare_record" "new_record" {
   value   = var.cloudflare_tunnel_cname
   type    = var.type_record
   proxied = true
-  ttl     = 3600
+  ttl     = 1
 }
 
 data "cloudflare_origin_ca_root_certificate" "origin_ca" {
