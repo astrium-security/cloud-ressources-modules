@@ -26,6 +26,7 @@ resource "cloudflare_record" "new_record" {
   name    = "${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${data.cloudflare_zone.domain.name}"
   value   = var.cloudflare_tunnel_cname
   type    = var.type_record
+  proxied = true
   ttl     = 3600
 }
 
