@@ -67,60 +67,6 @@ resource "aws_efs_access_point" "this" {
   }
 }
 
-data "aws_iam_policy_document" "this" {
-  statement {
-    actions = [
-      "elasticfilesystem:ClientMount",
-      "elasticfilesystem:ClientWrite"
-    ]
-
-    effect = "Allow"
-
-    resources = [
-      aws_efs_file_system.efs.arn,
-    ]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
-
-    condition {
-      test     = "Bool"
-      variable = "aws:SecureTransport"
-      values   = ["true"]
-    }
-  }
-}
-
-resource "aws_efs_file_system_policy" "this" {
-  file_system_id = aws_efs_file_system.efs.id
-  policy = data.aws_iam_policy_document.this.json
-}
-
-data "aws_iam_policy_document" "efs_access" {
-  statement {
-    actions = [
-      "elasticfilesystem:ClientMount",
-      "elasticfilesystem:ClientWrite"
-    ]
-
-    resources = [
-      aws_efs_file_system.efs.arn
-    ]
-  }
-}
-
-resource "aws_iam_policy" "efs_access" {
-  name   = "${var.prefix}-${var.container_name}-${var.app_environment}-efs-access"
-  policy = data.aws_iam_policy_document.efs_access.json
-}
-
-resource "aws_iam_role_policy_attachment" "efs_access" {
-  role       = aws_iam_role.ecs_task_execution_role_app.name
-  policy_arn = aws_iam_policy.efs_access.arn
-}
-
 resource "aws_iam_role" "ecs_task_execution_role_app" {
   name = "${var.prefix}-${var.container_name}-${var.app_environment}-ecsTaskExec"
 
