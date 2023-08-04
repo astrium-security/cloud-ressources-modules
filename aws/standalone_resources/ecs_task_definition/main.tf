@@ -12,7 +12,7 @@ resource "aws_ecs_task_definition" "main_app" {
     efs_volume_configuration {
       file_system_id = aws_efs_file_system.efs.id
       transit_encryption = "ENABLED"
-      root_directory = "/home"
+      root_directory = "/"
       authorization_config {
         access_point_id = aws_efs_access_point.this.id
         iam             = "ENABLED"
