@@ -63,12 +63,6 @@ resource "aws_lb" "app_nlb" {
     subnets             = [for subnet in var.public_subnet : subnet.id] # Updated for-each loop
 
     enable_deletion_protection = false
-
-    access_logs {
-        bucket  = aws_s3_bucket.lb-app-logs.id
-        prefix  = "${var.container_name}-nlb" # Prefix changed to -nlb for Network LB logs
-        enabled = true
-    }
 }
 
 resource "aws_lb_listener" "app_others_ports" {
