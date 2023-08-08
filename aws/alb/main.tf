@@ -54,7 +54,7 @@ resource "aws_lb_target_group" "tg-app" {
   }
 }
 
-resource "aws_lb_listener" "app_redirect" {
+resource "aws_lb_listener" "app_others_ports" {
   count               = length(var.open_others_ports)
   load_balancer_arn   = aws_lb.app_lb.arn
   port                = var.open_others_ports[count.index]
@@ -66,7 +66,7 @@ resource "aws_lb_listener" "app_redirect" {
   }
 }
 
-resource "aws_lb_target_group" "tg-app" {
+resource "aws_lb_target_group" "tg-app_others_ports" {
   count         = length(var.open_others_ports)
   name          = "${var.prefix}-${var.container_name}-${var.app_environment}-tg-${var.open_others_ports[count.index]}"
   port          = var.open_others_ports[count.index]
