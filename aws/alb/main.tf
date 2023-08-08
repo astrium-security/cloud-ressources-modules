@@ -60,7 +60,6 @@ resource "aws_lb" "app_nlb" {
     name                = "${var.prefix}-${var.container_name}-${var.app_environment}-nlb"
     internal            = true
     load_balancer_type  = "network" # For Network Load Balancer
-    security_groups     = [aws_security_group.lb_sg_app.id]
     subnets             = [for subnet in var.public_subnet : subnet.id] # Updated for-each loop
 
     enable_deletion_protection = false
