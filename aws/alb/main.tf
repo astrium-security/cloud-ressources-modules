@@ -54,22 +54,6 @@ resource "aws_lb_target_group" "tg-app" {
   }
 }
 
-resource "aws_lb" "app_lb" {
-    name               = "${var.prefix}-${var.container_name}-${var.app_environment}-nlb"
-    internal           = true
-    load_balancer_type = "application"
-    security_groups    = [aws_security_group.lb_sg_app.id]
-    subnets            = [for subnet in var.public_subnet.* : subnet.id]
-
-    enable_deletion_protection = false
-
-    access_logs {
-        bucket  = aws_s3_bucket.lb-app-logs.id
-        prefix  = "${var.container_name}-alb"
-        enabled = true
-    }
-}
-
 resource "aws_lb" "app_nlb" {
     # Conditionally create the LB if open_others_ports has one or more entries
     count               = length(var.open_others_ports) > 0 ? 1 : 0
