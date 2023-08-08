@@ -94,9 +94,9 @@ module "security_groups" {
   environment           = var.app_environment
   vpc_id                = var.vpc_id
 
-  ingress_protocol      = "tcp"
-  ingress_from_port     = "-1"
-  ingress_to_port       = "-1"
+  ingress_protocol      = "-1"
+  ingress_from_port     = 0
+  ingress_to_port       = 0
   ingress_cidr_blocks   = var.public_subnets.*.cidr_block 
 
   egress_protocol       = "-1"
