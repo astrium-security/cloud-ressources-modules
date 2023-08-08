@@ -54,15 +54,49 @@ resource "aws_lb_target_group" "tg-app" {
   }
 }
 
+resource "aws_lb" "app_lb" {
+    name               = "${var.prefix}-${var.container_name}-${var.app_environment}-nlb"
+    internal           = true
+    load_balancer_type = "application"
+    security_groups    = [aws_security_group.lb_sg_app.id]
+    subnets            = [for subnet in var.public_subnet.* : subnet.id]
+
+    enable_deletion_protection = false
+
+    access_logs {
+        bucket  = aws_s3_bucket.lb-app-logs.id
+        prefix  = "${var.container_name}-alb"
+        enabled = true
+    }
+}
+
+resource "aws_lb" "app_nlb" {
+    # Conditionally create the LB if open_others_ports has one or more entries
+    count               = length(var.open_others_ports) > 0 ? 1 : 0
+    name                = "${var.prefix}-${var.container_name}-${var.app_environment}-nlb"
+    internal            = true
+    load_balancer_type  = "network" # For Network Load Balancer
+    security_groups     = [aws_security_group.lb_sg_app.id]
+    subnets             = [for subnet in var.public_subnet : subnet.id] # Updated for-each loop
+
+    enable_deletion_protection = false
+
+    access_logs {
+        bucket  = aws_s3_bucket.lb-app-logs.id
+        prefix  = "${var.container_name}-nlb" # Prefix changed to -nlb for Network LB logs
+        enabled = true
+    }
+}
+
 resource "aws_lb_listener" "app_others_ports" {
   count               = length(var.open_others_ports)
-  load_balancer_arn   = aws_lb.app_lb.arn
+  load_balancer_arn   = aws_lb.app_nlb[0].arn # Accessing the NLB ARN conditionally
   port                = var.open_others_ports[count.index]
-  protocol            = "TCP" # Change the protocol to TCP
+  protocol            = "TCP"
 
   default_action {
     type             = "forward"
-    target_group_arn = element(aws_lb_target_group.tg-app.*.arn, count.index)
+    target_group_arn = element(aws_lb_target_group.tg-app_others_ports.*.arn, count.index)
   }
 }
 
@@ -70,7 +104,7 @@ resource "aws_lb_target_group" "tg-app_others_ports" {
   count         = length(var.open_others_ports)
   name          = "${var.prefix}-${var.container_name}-${var.app_environment}-tg-${var.open_others_ports[count.index]}"
   port          = var.open_others_ports[count.index]
-  protocol      = "TCP" # Change the protocol to TCP
+  protocol      = "TCP"
   target_type   = "ip"
   vpc_id        = var.vpc_id
 
@@ -86,6 +120,7 @@ resource "aws_lb_target_group" "tg-app_others_ports" {
     create_before_destroy = false
   }
 }
+
 
 
 resource "aws_security_group" "lb_sg_app" {
