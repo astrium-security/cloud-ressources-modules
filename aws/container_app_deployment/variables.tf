@@ -127,3 +127,10 @@ variable "cloudflare_tunnel" {
   description = "cloudflare_tunnel"
   type        = any
 }
+
+variable "open_others_ports" {
+  description = "open_others_ports"
+  default = []
+  type        = any
+}
+

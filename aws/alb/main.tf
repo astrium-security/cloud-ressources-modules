@@ -54,6 +54,42 @@ resource "aws_lb_target_group" "tg-app" {
   }
 }
 
+resource "aws_lb_listener" "app_redirect" {
+  count               = length(var.open_others_ports)
+  load_balancer_arn   = aws_lb.app_lb.arn
+  port                = var.open_others_ports[count.index]
+  protocol            = "TCP" # Change the protocol to TCP
+
+  default_action {
+    type             = "forward"
+    target_group_arn = element(aws_lb_target_group.tg-app.*.arn, count.index)
+  }
+}
+
+resource "aws_lb_target_group" "tg-app" {
+  count         = length(var.open_others_ports)
+  name          = "${var.prefix}-${var.container_name}-${var.app_environment}-tg-${var.open_others_ports[count.index]}"
+  port          = var.open_others_ports[count.index]
+  protocol      = "TCP" # Change the protocol to TCP
+  target_type   = "ip"
+  vpc_id        = var.vpc_id
+
+  health_check {
+    healthy_threshold   = "3"
+    interval            = "120"
+    protocol            = "TCP" # Change the protocol to TCP
+    matcher             = "200"
+    timeout             = "100"
+    path                = var.path_health
+    unhealthy_threshold = "2"
+  }
+
+  lifecycle {
+    create_before_destroy = false
+  }
+}
+
+
 resource "aws_security_group" "lb_sg_app" {
   name        = "${var.prefix}-${var.container_name}-${var.app_environment}-lb-sg"
   description = "Allow incoming traffic to the Load Balancer"

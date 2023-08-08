@@ -62,6 +62,7 @@ module "alb" {
   vpc_id                =   var.vpc_id
   container_port        =   var.container_port
   path_health           =   var.path_health
+  open_others_ports      =  var.open_others_ports
 }
 
 module "ecs_task_definition" {
