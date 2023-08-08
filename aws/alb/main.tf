@@ -77,10 +77,8 @@ resource "aws_lb_target_group" "tg-app_others_ports" {
   health_check {
     healthy_threshold   = "3"
     interval            = "120"
-    protocol            = "TCP" # Change the protocol to TCP
-    matcher             = "200"
+    protocol            = "TCP"
     timeout             = "100"
-    path                = var.path_health
     unhealthy_threshold = "2"
   }
 
