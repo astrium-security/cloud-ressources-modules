@@ -18,7 +18,7 @@ resource "aws_route53_record" "nlb_internal_record" {
   name    = "${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.network.${var.route53_zone_id.name}"
   type    = var.type_record
   ttl     = 300
-  records = [var.nlb_targets[0].dns_name]
+  records = var.nlb_targets[0].dns_name
 }
 
 resource "aws_route53_record" "internal_record" {
