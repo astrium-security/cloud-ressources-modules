@@ -15,6 +15,7 @@ module "ecs_service" {
     
     target_group_arn      =   module.alb.aws_lb_target_group_arn
     tg_others_ports       =   module.alb.tg_others_ports
+    open_others_ports     =   var.open_others_ports
 
     container_port        =   var.container_port
 
