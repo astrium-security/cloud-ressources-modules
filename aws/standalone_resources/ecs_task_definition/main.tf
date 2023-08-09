@@ -31,12 +31,6 @@ resource "aws_ecs_task_definition" "main_app" {
       containerPath = "${var.mount_efs}"
     }]
 
-    portMappings = [{
-      protocol      = "tcp"
-      containerPort = var.container_port
-      hostPort      = var.host_port
-    }]
-
     portMappings = local.all_port_mappings
 
     logConfiguration = {
