@@ -8,6 +8,11 @@ output "dns_name" {
   value       = aws_lb.app_lb.dns_name
 }
 
+output "app_nlb_dns_name" {
+  description = "app_nlb_dns_name"
+  value       = aws_lb.app_nlb.dns_name
+}
+
 output "object" {
   description = "The ID of the security group"
   value       = aws_lb.app_lb.dns_name

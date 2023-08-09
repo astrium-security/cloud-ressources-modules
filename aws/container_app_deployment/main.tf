@@ -40,6 +40,14 @@ module "dns" {
   targets               =   [module.alb.dns_name]
 }
 
+resource "aws_route53_record" "internal_record" {
+  zone_id = var.route53_zone_id.id
+  name    = "${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.${var.route53_zone_id.name}"
+  type    = var.type_record
+  ttl     = 300
+  records = [module.alb.app_nlb_dns_name]
+}
+
 resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
   listener_arn = module.alb.aws_lb_listener_rule_app_arn
   
