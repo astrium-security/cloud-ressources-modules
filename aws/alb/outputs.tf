@@ -10,7 +10,7 @@ output "dns_name" {
 
 output "app_nlb_dns_name" {
   description = "app_nlb_dns_name"
-  value       = aws_lb.app_nlb.dns_name
+  value       = aws_lb.app_nlb[0].dns_name
 }
 
 output "object" {
