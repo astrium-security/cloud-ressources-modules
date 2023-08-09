@@ -38,7 +38,7 @@ module "dns" {
   region                =   "eu-west-1"
   type_record           =   "CNAME"
   targets               =   [module.alb.dns_name]
-  nlb_target            =   [module.alb.app_nlb_dns_name]
+  nlb_targets            =   [module.alb.app_nlb_dns_name]
 }
 
 resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
