@@ -12,7 +12,10 @@ module "ecs_service" {
     force_new_deployment  =   true
     security_groups       =   [module.security_groups.id]
     public_subnet         =   var.public_subnets
+    
     target_group_arn      =   module.alb.aws_lb_target_group_arn
+    tg_others_ports       =   module.alb.tg_others_ports
+
     container_port        =   var.container_port
 
     is_autoscale          = var.is_autoscale
@@ -21,6 +24,7 @@ module "ecs_service" {
     memory_val_threshold  = var.memory_val_threshold
     min_capacity_scale    = var.min_capacity_scale
     max_capacity_scale    = var.max_capacity_scale
+    
 }
 
 module "dns" {

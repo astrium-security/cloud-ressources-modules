@@ -96,4 +96,14 @@ variable "cpu_val_threshold" {
   default     = 60
 }
 
+variable "tg_others_ports" {
+  description = "tg_others_ports"
+  default = []
+  type        = any
+}
 
+variable "open_others_ports" {
+  description = "open_others_ports"
+  default = []
+  type        = any
+}

@@ -21,6 +21,15 @@ resource "aws_ecs_service" "main_app" {
     container_port   = var.container_port
   }
 
+  dynamic "load_balancer" {
+        for_each = var.tg_others_ports
+        content {
+            target_group_arn = var.tg_others_ports[load_balancer.key].arn  # Assuming you have a map of target group ARNs corresponding to each port
+            container_name   = "${var.prefix}-${var.container_name}-${var.app_environment}-container"
+            container_port   = load_balancer.value
+        }
+  }
+
   lifecycle {
     create_before_destroy = true
   }
