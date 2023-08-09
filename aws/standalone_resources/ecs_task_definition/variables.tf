@@ -81,3 +81,8 @@ variable "mount_efs" {
   type        = any
 }
 
+variable "open_others_ports" {
+  description = "open_others_ports"
+  default = []
+  type        = any
+}

@@ -37,6 +37,8 @@ resource "aws_ecs_task_definition" "main_app" {
       hostPort      = var.host_port
     }]
 
+    portMappings = local.all_port_mappings
+
     logConfiguration = {
       logDriver = "awslogs"
       options = {
@@ -47,6 +49,23 @@ resource "aws_ecs_task_definition" "main_app" {
     }
   }])
 }
+
+locals {
+  others_port_mappings = [for port in var.open_others_ports : {
+    protocol      = "tcp"
+    containerPort = port
+    hostPort      = port
+  }]
+  
+  default_port_mapping = [{
+    protocol      = "tcp"
+    containerPort = var.container_port
+    hostPort      = var.host_port
+  }]
+  
+  all_port_mappings = concat(local.default_port_mapping, local.others_port_mappings)
+}
+
 
 resource "aws_efs_access_point" "this" {
   file_system_id = aws_efs_file_system.efs.id
