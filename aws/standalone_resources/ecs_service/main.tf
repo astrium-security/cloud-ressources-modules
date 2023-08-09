@@ -26,7 +26,7 @@ resource "aws_ecs_service" "main_app" {
         content {
             target_group_arn = var.tg_others_ports[load_balancer.key].arn  # Assuming you have a map of target group ARNs corresponding to each port
             container_name   = "${var.prefix}-${var.container_name}-${var.app_environment}-container"
-            container_port   = 50000 #load_balancer.value
+            container_port   = var.open_others_ports[load_balancer.key] #load_balancer.value
         }
   }
 
