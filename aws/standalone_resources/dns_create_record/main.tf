@@ -14,11 +14,13 @@ data "cloudflare_zone" "domain" {
 }
 
 resource "aws_route53_record" "nlb_internal_record" {
+  count   = length(var.nlb_targets) > 0 ? 1 : 0
+
   zone_id = var.route53_zone_id.id
   name    = "${var.app_name}.${var.app_env}.${var.prefix}.${var.region}.network.${var.route53_zone_id.name}"
   type    = var.type_record
   ttl     = 300
-  records = var.nlb_targets.*.dns_name
+  records = [for target in var.nlb_targets : target.dns_name]
 }
 
 resource "aws_route53_record" "internal_record" {
