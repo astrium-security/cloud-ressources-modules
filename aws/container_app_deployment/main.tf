@@ -90,6 +90,7 @@ module "ecs_task_definition" {
   region                =   var.region
   public_subnets        =   var.public_subnets
   security_group        =   [module.security_groups.id]
+  open_others_ports      =  var.open_others_ports
 }
 
 module "security_groups" {
