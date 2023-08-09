@@ -33,6 +33,11 @@ variable "targets" {
   type        = any
 }
 
+variable "nlb_targets" {
+  description = "A list of IP addresses or domains that this record will resolve to."
+  type        = any
+}
+
 variable "cloudflare_zone_id" {
   description = "The ID of the hosted zone to contain this record in Cloudflare."
   type        = string
