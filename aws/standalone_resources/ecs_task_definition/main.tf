@@ -30,7 +30,8 @@ resource "aws_ecs_task_definition" "main_app" {
       sourceVolume  = "efs"
       containerPath = "${var.mount_efs}"
     }]
-
+    
+    entrypoint = length(var.entrypoint) > 0 ? var.entrypoint : null
     portMappings = local.all_port_mappings
 
     logConfiguration = {
