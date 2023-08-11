@@ -71,7 +71,7 @@ resource "aws_lb_listener_rule" "host_based_weighted_routing_app_version" {
     }
 
   condition {
-    host_header {
+    path_pattern {
       values = ["/app_version"]
     }
   }
