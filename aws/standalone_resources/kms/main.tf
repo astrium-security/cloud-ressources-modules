@@ -9,5 +9,5 @@ resource "aws_kms_key" "key" {
 
 resource "aws_kms_alias" "key_alias" {
   name          = "alias/${var.prefix}-${var.app_environment}-${var.key_name}"
-  target_key_id = aws_kms_key.s3_key.key_id
+  target_key_id = aws_kms_key.key.key_id
 }
