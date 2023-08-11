@@ -57,6 +57,26 @@ resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
   }
 }
 
+resource "aws_lb_listener_rule" "host_based_weighted_routing_app_version" {
+  listener_arn = module.alb.aws_lb_listener_rule_app_arn
+  
+    action {
+      type = "fixed-response"
+
+      fixed_response {
+        content_type = "text/plain"
+        message_body = "${var.container_image}"
+        status_code  = "200"
+      }
+    }
+
+  condition {
+    host_header {
+      values = ["/app_version"]
+    }
+  }
+}
+
 module "alb" {
   source                =   "../alb"
   route53_zone_id       =   var.route53_zone_id
