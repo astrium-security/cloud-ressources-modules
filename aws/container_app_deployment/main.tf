@@ -44,7 +44,8 @@ module "dns" {
 
 resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
   listener_arn = module.alb.aws_lb_listener_rule_app_arn
-  
+  priority     = 2
+
   action {
     type             = "forward"
     target_group_arn = module.alb.aws_lb_target_group_arn
@@ -59,7 +60,7 @@ resource "aws_lb_listener_rule" "host_based_weighted_routing_app" {
 
 resource "aws_lb_listener_rule" "host_based_weighted_routing_app_version" {
   listener_arn = module.alb.aws_lb_listener_rule_app_arn
-  
+    priority     = 1
     action {
       type = "fixed-response"
 
