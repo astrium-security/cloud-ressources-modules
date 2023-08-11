@@ -10,5 +10,5 @@ output "iam_policy_arn" {
 
 output "iam_access_key" {
   description = "IAM user's access key ID."
-  value       = aws_iam_access_key.user.id
+  value       = aws_iam_access_key.user
 }
