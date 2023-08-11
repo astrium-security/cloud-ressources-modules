@@ -86,3 +86,9 @@ variable "open_others_ports" {
   default = []
   type        = any
 }
+
+variable "entrypoint" {
+  description = "entrypoint"
+  default = []
+  type        = any
+}

@@ -105,7 +105,8 @@ module "ecs_task_definition" {
 
   network_mode              =   "awsvpc"   
   requires_compatibilities  =   ["FARGATE"]
-
+  entrypoint            =   var.entrypoint
+  
   cpu                   =   var.cpu
   memory                =   var.memory
   container_port        =   var.container_port
