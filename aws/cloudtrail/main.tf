@@ -1,6 +1,6 @@
 
 module "kms_s3_key" {
-    source                  = "../standalone_resources/kms?ref=develop"
+    source                  = "../standalone_resources/kms"
     prefix                  = var.prefix
     app_environment         = var.infra_environment
     description             = "cloudtrail"
