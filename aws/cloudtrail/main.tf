@@ -24,7 +24,7 @@ module "my_s3_bucket" {
 
 resource "aws_cloudtrail" "main" {
   name                          = "main-trail"
-  s3_bucket_name                = aws_s3_bucket.cloudtrail_logs.bucket
+  s3_bucket_name                = module.my_s3_bucket.s3_bucket_name
   include_global_service_events = true 
   is_multi_region_trail         = true 
 
