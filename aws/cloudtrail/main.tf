@@ -3,7 +3,7 @@ provider "random" {}
 resource "random_string" "unique_string" {
   length  = 16  
   special = false
-  upper   = true  
+  upper   = false  
   lower   = true
   number  = true
 }
