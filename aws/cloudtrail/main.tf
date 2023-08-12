@@ -24,7 +24,7 @@ module "my_s3_bucket" {
 }
 
 resource "aws_cloudtrail" "main" {
-  depends_on = [aws_cloudwatch_log_group.cloudtrail]
+  depends_on = [aws_cloudwatch_log_group.cloudtrail, aws_s3_bucket_policy.cloudtrail_policy]
   name                          = "main-trail"
   s3_bucket_name                = module.my_s3_bucket.s3_bucket_name
   include_global_service_events = true 
@@ -76,29 +76,29 @@ resource "aws_iam_role_policy" "cloudtrail_cloudwatch_policy" {
   })
 }
 
-resource "aws_s3_bucket_policy" "cloudtrail_bucket_policy" {
-  bucket = aws_s3_bucket.cloudtrail_logs.bucket
+resource "aws_s3_bucket_policy" "cloudtrail_policy" {
+  bucket = module.my_s3_bucket.s3_bucket_name
 
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
-        Sid    = "AWSCloudTrailAclCheck",
+        Sid    = "CloudTrailAclCheck",
         Effect = "Allow",
         Principal = {
-          Service = "cloudtrail.amazonaws.com"
+          Service = "cloudtrail.amazonaws.com",
         },
         Action   = "s3:GetBucketAcl",
-        Resource = "arn:aws:s3:::${aws_s3_bucket.cloudtrail_logs.bucket}"
+        Resource = "arn:aws:s3:::${module.my_s3_bucket.s3_bucket_name}"
       },
       {
-        Sid    = "AWSCloudTrailWrite",
+        Sid    = "CloudTrailWrite",
         Effect = "Allow",
         Principal = {
-          Service = "cloudtrail.amazonaws.com"
+          Service = "cloudtrail.amazonaws.com",
         },
         Action   = "s3:PutObject",
-        Resource = "arn:aws:s3:::${aws_s3_bucket.cloudtrail_logs.bucket}/*",
+        Resource = "arn:aws:s3:::${module.my_s3_bucket.s3_bucket_name}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
         Condition = {
           StringEquals = {
             "s3:x-amz-acl" = "bucket-owner-full-control"
@@ -108,3 +108,5 @@ resource "aws_s3_bucket_policy" "cloudtrail_bucket_policy" {
     ]
   })
 }
+
+data "aws_caller_identity" "current" {}
