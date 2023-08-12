@@ -1,24 +1,25 @@
-provider "random" {}
 
-resource "random_string" "unique_string" {
-  length  = 16  
-  special = false
-  upper   = false  
-  lower   = true
-  number  = true
+module "kms_s3_key" {
+    source                  = "../standalone_resources/kms?ref=develop"
+    prefix                  = var.prefix
+    app_environment         = var.infra_environment
+    description             = "cloudtrail"
+    deletion_window_in_days = 7
+    enable_key_rotation     = false
+    multi_region            = false
+    key_name                = "cloudtrail"
 }
 
-resource "aws_s3_bucket" "cloudtrail_logs" {
-  bucket = "cloudtrail-${random_string.unique_string.result}" 
-  acl    = "private"
+module "my_s3_bucket" {
+  source = "../standalone_resources/s3"  # Adjust this path based on your actual module location
 
-  lifecycle_rule {
-    enabled = true
-
-    noncurrent_version_expiration {
-      days = var.noncurrent_version_expiration
-    }
-  }
+  prefix           = var.prefix
+  app_environment  = var.infra_environment
+  name             = "cloudtrail"
+  kms_key_arn      = module.kms_s3_key.kms_key_arn
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls  = true
 }
 
 resource "aws_cloudtrail" "main" {
