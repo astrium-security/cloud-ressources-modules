@@ -40,8 +40,8 @@ locals {
     stmt,
     {
       Resource = [
-        "${my_s3_bucket.bucket_arn}/",
-        "${my_s3_bucket.bucket_arn}/*"
+        "${aws_s3_bucket.bucket_arn}/",
+        "${aws_s3_bucket.bucket_arn}/*"
       ]
     }
   )]
@@ -77,7 +77,6 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
     ], var.customized_s3_policy != null ? local.modified_customized_s3_policy : [])
   })
 }
-
 
 data "aws_caller_identity" "current" {}
 
