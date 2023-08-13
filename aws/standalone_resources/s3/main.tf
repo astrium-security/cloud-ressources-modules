@@ -69,7 +69,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 data "aws_caller_identity" "current" {}
 
 resource "aws_cloudtrail" "write_event_trail" {
-  name           = "my-cloudtrail-trail"
+  name           = "${s3_bucket_name}"
   s3_bucket_name = aws_s3_bucket.bucket.bucket
 
   event_selector {
