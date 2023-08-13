@@ -168,7 +168,7 @@ resource "aws_s3_bucket_policy" "lb-app-logs-policy" {
           AWS = data.aws_elb_service_account.main_app.arn
         },
         Effect = "Allow",
-        Resource = "${module.my_s3_bucket.s3_bucket_arn}/*",
+        Resource = ["${module.my_s3_bucket.s3_bucket_arn}/", "${module.my_s3_bucket.s3_bucket_arn}/*"],
         Condition = {
           StringEquals = {
             "s3:x-amz-acl" = "bucket-owner-full-control"
