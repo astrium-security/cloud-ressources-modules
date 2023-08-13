@@ -79,7 +79,7 @@ resource "aws_cloudtrail" "write_event_trail" {
     data_resource {
       type = "AWS::S3::Object"
       
-      values = ["${aws_s3_bucket.bucket.arn}/"]
+      values = ["${aws_s3_bucket.bucket.arn}/","${aws_s3_bucket.bucket.arn}/*"]
     }
   }
 }
