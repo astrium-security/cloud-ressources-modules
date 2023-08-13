@@ -150,7 +150,7 @@ module "my_s3_bucket" {
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
-  customized_s3_policy = [{
+  customized_s3_policies = [{
         Action = [
           "s3:PutObject",
           "s3:PutObjectAcl",

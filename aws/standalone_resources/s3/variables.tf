@@ -33,7 +33,8 @@ variable "ignore_public_acls" {
   type        = bool
 }
 
-variable "customized_s3_policy" {
+variable "customized_s3_policies" {
   description = "customized_s3_policy"
   type        = any
+  default = []
 }
