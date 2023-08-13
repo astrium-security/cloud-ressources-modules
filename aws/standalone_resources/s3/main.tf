@@ -39,14 +39,16 @@ locals {
   modified_customized_s3_policies = [for stmt in var.customized_s3_policies : merge(
     stmt,
     {
-       Resource = aws_s3_bucket.bucket.arn
+      Resource = [
+        "${aws_s3_bucket.bucket.arn}/",
+        "${aws_s3_bucket.bucket.arn}/*"
+      ]
     }
   )]
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
   bucket = aws_s3_bucket.bucket.bucket
-  depends_on = [ aws_s3_bucket.bucket ]
   
   policy = jsonencode({
     Version = "2012-10-17",
