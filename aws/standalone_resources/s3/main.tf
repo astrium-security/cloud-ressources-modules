@@ -35,8 +35,8 @@ resource "aws_s3_bucket_versioning" "versioning" {
   }
 }
 
-resource "aws_s3_bucket_policy" "my_bucket_policy" {
-  bucket = aws_s3_bucket.my_bucket.bucket
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = aws_s3_bucket.bucket.bucket
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -47,7 +47,7 @@ resource "aws_s3_bucket_policy" "my_bucket_policy" {
           Service = "cloudtrail.amazonaws.com"
         },
         Action = "s3:GetBucketAcl",
-        Resource = aws_s3_bucket.my_bucket.arn
+        Resource = aws_s3_bucket.bucket.arn
       },
       {
         Effect = "Allow",
@@ -55,7 +55,7 @@ resource "aws_s3_bucket_policy" "my_bucket_policy" {
           Service = "cloudtrail.amazonaws.com"
         },
         Action = "s3:PutObject",
-        Resource = "${aws_s3_bucket.my_bucket.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+        Resource = "${aws_s3_bucket.bucket.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
         Condition = {
           StringEquals = {
             "s3:x-amz-acl" = "bucket-owner-full-control"
@@ -70,7 +70,7 @@ data "aws_caller_identity" "current" {}
 
 resource "aws_cloudtrail" "write_event_trail" {
   name           = "my-cloudtrail-trail"
-  s3_bucket_name = aws_s3_bucket.my_bucket.bucket
+  s3_bucket_name = aws_s3_bucket.bucket.bucket
 
   event_selector {
     read_write_type           = "WriteOnly"
@@ -79,7 +79,7 @@ resource "aws_cloudtrail" "write_event_trail" {
     data_resource {
       type = "AWS::S3::Object"
       
-      values = ["${aws_s3_bucket.my_bucket.arn}/"]
+      values = ["${aws_s3_bucket.bucket.arn}/"]
     }
   }
 }
