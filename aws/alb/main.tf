@@ -150,16 +150,7 @@ module "my_s3_bucket" {
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
-}
-
-
-resource "aws_s3_bucket_policy" "lb-app-logs-policy" {
-  bucket = module.my_s3_bucket.s3_bucket_id
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
+  customized_s3_policy = [{
         Action = [
           "s3:PutObject",
           "s3:PutObjectAcl",
@@ -174,7 +165,5 @@ resource "aws_s3_bucket_policy" "lb-app-logs-policy" {
             "s3:x-amz-acl" = "bucket-owner-full-control"
           }
         }
-      },
-    ],
-  })
+      }]
 }

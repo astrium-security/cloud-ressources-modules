@@ -40,7 +40,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 
   policy = jsonencode({
     Version = "2012-10-17",
-    Statement = [
+    Statement = concat([
       {
         Effect = "Allow",
         Principal = {
@@ -62,9 +62,10 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
           }
         }
       }
-    ]
+    ], var.customized_s3_policy != null ? var.customized_s3_policy : [])
   })
 }
+
 
 data "aws_caller_identity" "current" {}
 

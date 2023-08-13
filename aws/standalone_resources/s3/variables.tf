@@ -32,3 +32,8 @@ variable "ignore_public_acls" {
   description = "Whether to ignore public ACLs for objects in the S3 bucket"
   type        = bool
 }
+
+variable "customized_s3_policy" {
+  description = "customized_s3_policy"
+  type        = any
+}
