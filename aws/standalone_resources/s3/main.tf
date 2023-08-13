@@ -40,7 +40,6 @@ locals {
     stmt,
     {
       Resource = [
-        "${aws_s3_bucket.bucket.arn}/",
         "${aws_s3_bucket.bucket.arn}/*"
       ]
     }
