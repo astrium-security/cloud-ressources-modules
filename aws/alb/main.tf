@@ -150,5 +150,19 @@ module "my_s3_bucket" {
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
-  customized_s3_policies = []
+  customized_s3_policies = [{
+        Action = [
+          "s3:PutObject",
+          "s3:PutObjectAcl",
+        ],
+        Principal = {
+          AWS = data.aws_elb_service_account.main_app.arn
+        },
+        Effect = "Allow",
+        Condition = {
+          StringEquals = {
+            "s3:x-amz-acl" = "bucket-owner-full-control"
+          }
+        }
+      }]
 }
