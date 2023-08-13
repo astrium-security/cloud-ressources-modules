@@ -36,7 +36,7 @@ resource "aws_s3_bucket_versioning" "versioning" {
 }
 
 locals {
-  modified_customized_s3_policy = [for stmt in var.customized_s3_policy : merge(
+  modified_customized_s3_policies = [for stmt in var.customized_s3_policies : merge(
     stmt,
     {
       Resource = [
@@ -74,7 +74,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
           }
         }
       }
-    ], var.customized_s3_policy != null ? local.modified_customized_s3_policy : [])
+    ], var.customized_s3_policies != null ? local.modified_customized_s3_policies : [])
   })
 }
 
