@@ -156,7 +156,7 @@ module "my_s3_bucket" {
           "s3:PutObjectAcl",
         ],
         Principal = {
-          AWS = data.aws_elb_service_account.main_app.arn
+          Service = "delivery.logs.amazonaws.com"
         },
         Effect = "Allow",
         Condition = {
