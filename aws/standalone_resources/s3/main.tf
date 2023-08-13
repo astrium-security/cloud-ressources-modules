@@ -35,6 +35,18 @@ resource "aws_s3_bucket_versioning" "versioning" {
   }
 }
 
+locals {
+  modified_customized_s3_policy = [for stmt in var.customized_s3_policy : merge(
+    stmt,
+    {
+      Resource = [
+        "${my_s3_bucket.bucket_arn}/",
+        "${my_s3_bucket.bucket_arn}/*"
+      ]
+    }
+  )]
+}
+
 resource "aws_s3_bucket_policy" "bucket_policy" {
   bucket = aws_s3_bucket.bucket.bucket
 
@@ -62,7 +74,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
           }
         }
       }
-    ], var.customized_s3_policies != null ? var.customized_s3_policies : [])
+    ], var.customized_s3_policy != null ? local.modified_customized_s3_policy : [])
   })
 }
 
