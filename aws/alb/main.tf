@@ -15,7 +15,7 @@ resource "aws_lb" "app_lb" {
     enable_deletion_protection = false
 
     access_logs {
-        bucket  = aws_s3_bucket.lb-app-logs.id
+        bucket  = module.my_s3_bucket.s3_bucket_id
         prefix  = "${var.container_name}-alb"
         enabled = true
     }
@@ -129,12 +129,32 @@ resource "aws_security_group" "lb_sg_app" {
   }
 }
 
-resource "aws_s3_bucket" "lb-app-logs" {
-  bucket = "alb-logs-${var.prefix}-${var.container_name}-${var.app_environment}"
+module "kms_s3_key" {
+    source                  = "../standalone_resources/kms"
+    prefix                  = var.prefix
+    app_environment         = var.app_environment
+    description             = "kms bucket s3"
+    deletion_window_in_days = 7
+    enable_key_rotation     = false
+    multi_region            = false
+    key_name                = "alb-logs-${var.prefix}-${var.container_name}-${var.app_environment}"
 }
 
+module "my_s3_bucket" {
+  source = "../standalone_resources/s3"
+
+  prefix           = var.prefix
+  app_environment  = var.app_environment
+  name             = "alb-logs-${var.container_name}"
+  kms_key_arn      = module.kms_s3_key.kms_key_arn
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls  = true
+}
+
+
 resource "aws_s3_bucket_policy" "lb-app-logs-policy" {
-  bucket = aws_s3_bucket.lb-app-logs.id
+  bucket = module.my_s3_bucket.s3_bucket_id
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -148,7 +168,7 @@ resource "aws_s3_bucket_policy" "lb-app-logs-policy" {
           AWS = data.aws_elb_service_account.main_app.arn
         },
         Effect = "Allow",
-        Resource = "${aws_s3_bucket.lb-app-logs.arn}/*",
+        Resource = "${module.my_s3_bucket.s3_bucket_arn}/*",
         Condition = {
           StringEquals = {
             "s3:x-amz-acl" = "bucket-owner-full-control"
