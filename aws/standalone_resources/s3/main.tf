@@ -62,7 +62,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
           }
         }
       }
-    ], var.customized_s3_policy != null ? var.customized_s3_policy : [])
+    ], var.customized_s3_policies != null ? var.customized_s3_policies : [])
   })
 }
 
