@@ -4,6 +4,7 @@ resource "random_id" "name_suffix" {
 
 resource "aws_s3_bucket" "bucket" {
   bucket        = "${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}"
+  acl           = "private"
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "s3_sse" {
@@ -17,81 +18,61 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3_sse" {
   }
 }
 
-
 resource "aws_s3_bucket_public_access_block" "s3_block_public" {
   bucket = aws_s3_bucket.bucket.id
 
-  # block public bucket
   block_public_acls   = var.block_public_acls
   block_public_policy = var.block_public_policy
 
-  # block public objects
   ignore_public_acls = var.ignore_public_acls
 }
 
-resource "aws_s3_bucket_versioning" "versioning" {
-  bucket = aws_s3_bucket.bucket.id
-  versioning_configuration {
-    status = "Enabled"
+resource "aws_s3_bucket" "cloudtrail_logs" {
+  bucket = "cloudtrail-${aws_s3_bucket.bucket}"
+  acl    = "private"
+
+  versioning {
+    enabled = true
   }
-}
 
-locals {
-  modified_customized_s3_policies = [for stmt in var.customized_s3_policies : merge(
-    stmt,
-    {
-      Resource = [
-        "${aws_s3_bucket.bucket.arn}/*"
-      ]
-    }
-  )]
-}
-
-resource "aws_s3_bucket_policy" "bucket_policy" {
-  bucket = aws_s3_bucket.bucket.bucket
-  
+  # This bucket policy ensures that AWS CloudTrail can write logs to the bucket.
   policy = jsonencode({
     Version = "2012-10-17",
-    Statement = concat([
+    Statement = [
       {
-        Effect = "Allow",
+        Sid       = "AllowCloudTrailLogs"
+        Effect    = "Allow"
         Principal = {
           Service = "cloudtrail.amazonaws.com"
         },
-        Action = "s3:GetBucketAcl",
-        Resource = aws_s3_bucket.bucket.arn
-      },
-      {
-        Effect = "Allow",
-        Principal = {
-          Service = "cloudtrail.amazonaws.com"
-        },
-        Action = "s3:PutObject",
-        Resource = "${aws_s3_bucket.bucket.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+        Action    = "s3:PutObject"
+        Resource  = "${aws_s3_bucket.cloudtrail_logs.arn}/*"
         Condition = {
           StringEquals = {
             "s3:x-amz-acl" = "bucket-owner-full-control"
           }
         }
       }
-    ], var.customized_s3_policies != null ? local.modified_customized_s3_policies : [])
+    ]
   })
 }
 
-data "aws_caller_identity" "current" {}
+# Create CloudTrail to monitor the target S3 bucket.
+resource "aws_cloudtrail" "s3_monitoring" {
+  name           = "s3-bucket-${aws_s3_bucket.bucket}"
+  s3_bucket_name = aws_s3_bucket.cloudtrail_logs.bucket
 
-resource "aws_cloudtrail" "write_event_trail" {
-  name           = "${aws_s3_bucket.bucket.bucket}"
-  s3_bucket_name = aws_s3_bucket.bucket.bucket
+  enable_log_file_validation = true
 
   event_selector {
-    read_write_type           = "WriteOnly"
-    include_management_events = true
+    read_write_type           = "All"
+    include_management_events = false
 
     data_resource {
       type = "AWS::S3::Object"
-      
-      values = ["${aws_s3_bucket.bucket.arn}/","${aws_s3_bucket.bucket.arn}/*"]
+
+      # This will monitor all objects within the target bucket.
+      values = ["${aws_s3_bucket.bucket.arn}/"]
     }
   }
 }
