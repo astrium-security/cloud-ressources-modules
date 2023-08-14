@@ -152,43 +152,5 @@ module "my_s3_bucket" {
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
-  customized_s3_policies = [
-    {
-      "Sid"       = "AllowELBRootAccount"
-      "Effect"    = "Allow"
-      "Action"    = "s3:PutObject"
-      "Principal" = {
-        "AWS" = data.aws_elb_service_account.main_app.arn
-      }
-    },
-    {
-      "Sid"       = "AWSLogDeliveryWrite"
-      "Effect"    = "Allow"
-      "Action"    = "s3:PutObject"
-      "Condition" = {
-        "StringEquals" = {
-          "s3:x-amz-acl" = "bucket-owner-full-control"
-        }
-      }
-      "Principal" = {
-        "Service" = "delivery.logs.amazonaws.com"
-      }
-    },
-    {
-      "Sid"       = "AWSLogDeliveryAclCheck"
-      "Effect"    = "Allow"
-      "Action"    = "s3:GetBucketAcl"
-      "Principal" = {
-        "Service" = "delivery.logs.amazonaws.com"
-      }
-    },
-    {
-      "Sid"       = "AllowALBAccess"
-      "Effect"    = "Allow"
-      "Action"    = "s3:PutObject"
-      "Principal" = {
-        "Service" = "elasticloadbalancing.amazonaws.com"
-      }
-    }
-  ]
+  customized_s3_policies = []
 }
