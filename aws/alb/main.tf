@@ -152,11 +152,10 @@ module "my_s3_bucket" {
   ignore_public_acls  = true
   customized_s3_policies = [{
         Action = [
-          "s3:PutObject",
-          "s3:PutObjectAcl",
+          "*"
         ],
         Principal = {
-          Service = "delivery.logs.amazonaws.com"
+          AWS = data.aws_elb_service_account.main_app.arn
         },
         Effect = "Allow",
         Condition = {
