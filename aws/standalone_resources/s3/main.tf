@@ -27,15 +27,20 @@ resource "aws_s3_bucket_public_access_block" "s3_block_public" {
   ignore_public_acls = var.ignore_public_acls
 }
 
+
+
 resource "aws_s3_bucket" "cloudtrail_logs" {
-  bucket = "cloudtrail-${aws_s3_bucket.bucket}"
+  bucket = "cloudtrail-${aws_s3_bucket.bucket.bucket}"
   acl    = "private"
 
   versioning {
     enabled = true
   }
+}
 
-  # This bucket policy ensures that AWS CloudTrail can write logs to the bucket.
+resource "aws_s3_bucket_policy" "cloudtrail_logs_policy" {
+  bucket = aws_s3_bucket.cloudtrail_logs.bucket
+
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -46,7 +51,7 @@ resource "aws_s3_bucket" "cloudtrail_logs" {
           Service = "cloudtrail.amazonaws.com"
         },
         Action    = "s3:PutObject"
-        Resource  = "${self.arn}/*"
+        Resource  = "${aws_s3_bucket.cloudtrail_logs.arn}/*"
         Condition = {
           StringEquals = {
             "s3:x-amz-acl" = "bucket-owner-full-control"
@@ -56,6 +61,8 @@ resource "aws_s3_bucket" "cloudtrail_logs" {
     ]
   })
 }
+
+
 
 # Create CloudTrail to monitor the target S3 bucket.
 resource "aws_cloudtrail" "s3_monitoring" {
