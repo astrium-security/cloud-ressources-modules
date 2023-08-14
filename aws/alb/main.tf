@@ -134,7 +134,7 @@ module "my_s3_bucket" {
 
   prefix           = var.prefix
   app_environment  = var.app_environment
-  name             = "${var.container_name}"
+  name             = "access-logs-${var.container_name}"
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
