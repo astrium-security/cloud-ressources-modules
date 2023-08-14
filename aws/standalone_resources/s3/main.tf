@@ -6,7 +6,6 @@ data "aws_caller_identity" "current" {}
 
 resource "aws_s3_bucket" "bucket" {
   bucket        = "${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}"
-  acl           = "private"
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "s3_sse" {
