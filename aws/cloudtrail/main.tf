@@ -222,6 +222,6 @@ resource "aws_iam_role" "config" {
 }
 
 resource "aws_iam_role_policy_attachment" "aws_config" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
+  policy_arn = aws_iam_role.config.arn
   role       = aws_iam_role.config.name
 }
