@@ -1,5 +1,7 @@
 
-data "aws_elb_service_account" "main_app" {}
+
+data "aws_caller_identity" "current" {}
+data "aws_elb_service_account" "elb_account_id" {}
 
 data "aws_route53_zone" "selected" {
   zone_id         =  var.route53_zone_id
@@ -19,8 +21,6 @@ resource "aws_lb" "app_lb" {
         prefix  = "${var.container_name}-alb"
         enabled = true
     }
-
-    #depends_on = [module.my_s3_bucket]
 }
 
 resource "aws_lb_listener" "app_redirect" {
@@ -138,4 +138,23 @@ module "my_s3_bucket" {
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
+}
+
+data "aws_iam_policy_document" "allow_lb" {
+  statement {
+    effect = "Allow"
+    resources = [
+      "${module.my_s3_bucket.s3_bucket_arn}",
+    ]
+    actions = ["s3:GetBucketAcl"]
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "lb_logs" {
+  bucket = module.my_s3_bucket.s3_bucket_id
+  policy = data.aws_iam_policy_document.allow_lb.json
 }
