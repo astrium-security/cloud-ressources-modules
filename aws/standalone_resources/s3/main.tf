@@ -70,6 +70,7 @@ resource "aws_s3_bucket_policy" "cloudtrail_logs_policy" {
   })
 }
 
+
 # Create CloudTrail to monitor the target S3 bucket.
 resource "aws_cloudtrail" "s3_monitoring" {
   name           = "s3-bucket-${aws_s3_bucket.bucket.bucket}"
