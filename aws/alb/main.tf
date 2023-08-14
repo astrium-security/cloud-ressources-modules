@@ -145,6 +145,7 @@ data "aws_iam_policy_document" "allow_lb" {
     effect = "Allow"
     resources = [
       "${module.my_s3_bucket.s3_bucket_arn}/*",
+      "${module.my_s3_bucket.s3_bucket_arn}"
     ]
     actions = ["s3:PutObject"]
     principals {
@@ -157,6 +158,7 @@ data "aws_iam_policy_document" "allow_lb" {
     effect = "Allow"
     resources = [
       "${module.my_s3_bucket.s3_bucket_arn}/*",
+      "${module.my_s3_bucket.s3_bucket_arn}"
     ]
     actions = ["s3:PutObject"]
     principals {
@@ -173,7 +175,8 @@ data "aws_iam_policy_document" "allow_lb" {
   statement {
     effect = "Allow"
     resources = [
-      "${module.my_s3_bucket.s3_bucket_arn}",
+      "${module.my_s3_bucket.s3_bucket_arn}/*",
+      "${module.my_s3_bucket.s3_bucket_arn}"
     ]
     actions = ["s3:GetBucketAcl"]
     principals {
