@@ -129,24 +129,12 @@ resource "aws_security_group" "lb_sg_app" {
   }
 }
 
-module "kms_s3_key" {
-    source                  = "../standalone_resources/kms"
-    prefix                  = var.prefix
-    app_environment         = var.app_environment
-    description             = "${var.container_name}"
-    deletion_window_in_days = 7
-    enable_key_rotation     = false
-    multi_region            = false
-    key_name                = "${var.container_name}"
-}
-
 module "my_s3_bucket" {
   source = "../standalone_resources/s3"
 
   prefix           = var.prefix
   app_environment  = var.app_environment
   name             = "${var.container_name}"
-  kms_key_arn      = module.kms_s3_key.kms_key_arn
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
