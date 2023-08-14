@@ -168,6 +168,31 @@ module "config_bucket" {
   ignore_public_acls  = true
 }
 
+resource "aws_s3_bucket_policy" "config_bucket_policy" {
+  bucket = module.config_bucket.bucket
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "s3:PutObject",
+          "s3:GetBucketAcl",
+          "s3:GetBucketLocation"
+        ],
+        Effect = "Allow",
+        Resource = [
+          "${module.config_bucket.s3_bucket_arn}",
+          "${module.config_bucket.s3_bucket_arn}/*"
+        ],
+        Principal = {
+          Service = "config.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
 resource "aws_config_delivery_channel" "this" {
   for_each = { for region in local.regions : region => region }
 
