@@ -31,7 +31,6 @@ resource "aws_s3_bucket_public_access_block" "s3_block_public" {
 
 resource "aws_s3_bucket" "cloudtrail_logs" {
   bucket = "cloudtrail-${aws_s3_bucket.bucket.bucket}"
-  acl    = "private"
 
   versioning {
     enabled = true
