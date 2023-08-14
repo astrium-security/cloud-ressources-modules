@@ -19,6 +19,8 @@ resource "aws_lb" "app_lb" {
         prefix  = "${var.container_name}-alb"
         enabled = true
     }
+
+    depends_on = [module.my_s3_bucket]
 }
 
 resource "aws_lb_listener" "app_redirect" {
