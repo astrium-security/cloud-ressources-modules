@@ -20,7 +20,7 @@ resource "aws_lb" "app_lb" {
     #    enabled = true
     #}
 
-    depends_on = [module.my_s3_bucket]
+    #depends_on = [module.my_s3_bucket]
 }
 
 resource "aws_lb_listener" "app_redirect" {
