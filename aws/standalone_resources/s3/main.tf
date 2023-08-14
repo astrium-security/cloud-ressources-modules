@@ -2,6 +2,8 @@ resource "random_id" "name_suffix" {
   byte_length = 4
 }
 
+data "aws_caller_identity" "current" {}
+
 resource "aws_s3_bucket" "bucket" {
   bucket        = "${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}"
   acl           = "private"
@@ -26,8 +28,6 @@ resource "aws_s3_bucket_public_access_block" "s3_block_public" {
 
   ignore_public_acls = var.ignore_public_acls
 }
-
-
 
 resource "aws_s3_bucket" "cloudtrail_logs" {
   bucket = "cloudtrail-${aws_s3_bucket.bucket.bucket}"
