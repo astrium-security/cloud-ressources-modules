@@ -91,7 +91,6 @@ resource "aws_cloudtrail" "s3_monitoring" {
 
     data_resource {
       type = "AWS::S3::Object"
-
       values = ["${aws_s3_bucket.bucket.arn}/"]
     }
   }

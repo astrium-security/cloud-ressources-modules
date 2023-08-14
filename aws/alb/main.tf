@@ -129,15 +129,4 @@ resource "aws_security_group" "lb_sg_app" {
   }
 }
 
-module "my_s3_bucket" {
-  source = "../standalone_resources/s3"
-
-  prefix           = var.prefix
-  app_environment  = var.app_environment
-  name             = "alb-logs-${var.container_name}"
-  block_public_acls   = true
-  block_public_policy = true
-  ignore_public_acls  = true
-  customized_s3_policies = []
-}
 
