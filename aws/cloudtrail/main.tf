@@ -12,7 +12,7 @@ module "kms_s3_key" {
 }
 
 module "my_s3_bucket" {
-  source = "../standalone_resources/s3"  # Adjust this path based on your actual module location
+  source = "../standalone_resources/s3"
 
   prefix           = var.prefix
   app_environment  = var.infra_environment
@@ -29,10 +29,6 @@ resource "aws_cloudtrail" "main" {
   s3_bucket_name                = module.my_s3_bucket.s3_bucket_name
   include_global_service_events = true 
   is_multi_region_trail         = true 
-
-  #-enable_log_file_validation = true
-  #cloud_watch_logs_group_arn = aws_cloudwatch_log_group.cloudtrail.arn
-  #cloud_watch_logs_role_arn  = aws_iam_role.cloudtrail_cloudwatch.arn
 }
 
 resource "aws_cloudwatch_log_group" "cloudtrail" {

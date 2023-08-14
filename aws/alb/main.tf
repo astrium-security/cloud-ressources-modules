@@ -100,8 +100,6 @@ resource "aws_lb_target_group" "tg-app_others_ports" {
   }
 }
 
-
-
 resource "aws_security_group" "lb_sg_app" {
   name        = "${var.prefix}-${var.container_name}-${var.app_environment}-lb-sg"
   description = "Allow incoming traffic to the Load Balancer"
@@ -131,15 +129,15 @@ resource "aws_security_group" "lb_sg_app" {
   }
 }
 
-#module "my_s3_bucket" {
-#  source = "../standalone_resources/s3"
+module "my_s3_bucket" {
+  source = "../standalone_resources/s3"
 
-#  prefix           = var.prefix
-#  app_environment  = var.app_environment
-#  name             = "alb-logs-${var.container_name}"
-#  block_public_acls   = true
-#  block_public_policy = true
-#  ignore_public_acls  = true
-#  customized_s3_policies = []
-#}
+  prefix           = var.prefix
+  app_environment  = var.app_environment
+  name             = "alb-logs-${var.container_name}"
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls  = true
+  customized_s3_policies = []
+}
 
