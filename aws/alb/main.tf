@@ -14,11 +14,11 @@ resource "aws_lb" "app_lb" {
 
     enable_deletion_protection = false
 
-    #access_logs {
-    #    bucket  = module.my_s3_bucket.s3_bucket_id
-    #    prefix  = "${var.container_name}-alb"
-    #    enabled = true
-    #}
+    access_logs {
+        bucket  = module.my_s3_bucket.s3_bucket_id
+        prefix  = "${var.container_name}-alb"
+        enabled = true
+    }
 
     #depends_on = [module.my_s3_bucket]
 }
