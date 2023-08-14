@@ -221,7 +221,7 @@ resource "aws_iam_role" "config" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "aws_config" {
-  policy_arn = aws_iam_role.config.arn
-  role       = aws_iam_role.config.name
-}
+#resource "aws_iam_role_policy_attachment" "aws_config" {
+#  policy_arn = aws_iam_role.config.arn
+#  role       = aws_iam_role.config.name
+#}
