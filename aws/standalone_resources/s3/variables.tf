@@ -16,6 +16,7 @@ variable "name" {
 variable "kms_key_arn" {
   description = "ARN of the KMS key to be used for server-side encryption"
   type        = string
+  default     = ""
 }
 
 variable "block_public_acls" {

@@ -11,11 +11,12 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3_sse" {
 
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = var.kms_key_arn
-      sse_algorithm     = "aws:kms"
+      kms_master_key_id = var.kms_key_arn != null && var.kms_key_arn != "" ? var.kms_key_arn : null
+      sse_algorithm     = var.kms_key_arn != null && var.kms_key_arn != "" ? "aws:kms" : "AES256"
     }
   }
 }
+
 
 resource "aws_s3_bucket_public_access_block" "s3_block_public" {
   bucket = aws_s3_bucket.bucket.id
