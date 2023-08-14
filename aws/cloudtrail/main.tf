@@ -169,7 +169,7 @@ module "config_bucket" {
 }
 
 resource "aws_s3_bucket_policy" "config_bucket_policy" {
-  bucket = module.config_bucket.bucket
+  bucket = module.config_bucket.s3_bucket_name
 
   policy = jsonencode({
     Version = "2012-10-17",
