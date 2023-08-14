@@ -43,6 +43,16 @@ resource "aws_cloudtrail" "main" {
   s3_bucket_name                = module.my_s3_bucket.s3_bucket_name
   include_global_service_events = true 
   is_multi_region_trail         = true 
+    
+  event_selector {
+    read_write_type           = "All"
+    include_management_events = false
+
+    data_resource {
+      type = "AWS::S3::Object"
+      values = ["arn:aws:s3:::*"]
+    }
+  }
 }
 
 resource "aws_cloudwatch_log_group" "cloudtrail" {
