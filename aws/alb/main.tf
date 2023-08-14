@@ -144,6 +144,35 @@ data "aws_iam_policy_document" "allow_lb" {
   statement {
     effect = "Allow"
     resources = [
+      "${module.my_s3_bucket.s3_bucket_arn}/*",
+    ]
+    actions = ["s3:PutObject"]
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${data.aws_elb_service_account.elb_account_id.id}:root"]
+    }
+  }
+
+  statement {
+    effect = "Allow"
+    resources = [
+      "${module.my_s3_bucket.s3_bucket_arn}/*",
+    ]
+    actions = ["s3:PutObject"]
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "s3:x-amz-acl"
+      values   = ["bucket-owner-full-control"]
+    }
+  }
+
+  statement {
+    effect = "Allow"
+    resources = [
       "${module.my_s3_bucket.s3_bucket_arn}",
     ]
     actions = ["s3:GetBucketAcl"]
