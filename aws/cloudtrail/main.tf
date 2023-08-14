@@ -23,6 +23,10 @@ module "my_s3_bucket" {
   ignore_public_acls  = true
 }
 
+resource "aws_guardduty_detector" "default" {
+  enable = true
+}
+
 resource "aws_cloudtrail" "main" {
   depends_on = [aws_cloudwatch_log_group.cloudtrail, aws_s3_bucket_policy.cloudtrail_policy]
   name                          = "main-trail"
