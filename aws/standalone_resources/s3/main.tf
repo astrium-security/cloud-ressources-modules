@@ -8,6 +8,13 @@ resource "aws_s3_bucket" "bucket" {
   bucket        = "${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}"
 }
 
+resource "aws_s3_bucket_versioning" "versioning_bucket" {
+  bucket = aws_s3_bucket.bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "s3_sse" {
   bucket = aws_s3_bucket.bucket.bucket
 
@@ -30,9 +37,12 @@ resource "aws_s3_bucket_public_access_block" "s3_block_public" {
 
 resource "aws_s3_bucket" "cloudtrail_logs" {
   bucket = "cloudtrail-${aws_s3_bucket.bucket.bucket}"
+}
 
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "versioning_bucket_cloudtrail" {
+  bucket = aws_s3_bucket.cloudtrail_logs.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -69,8 +79,6 @@ resource "aws_s3_bucket_policy" "cloudtrail_logs_policy" {
   })
 }
 
-
-# Create CloudTrail to monitor the target S3 bucket.
 resource "aws_cloudtrail" "s3_monitoring" {
   name           = "s3-bucket-${aws_s3_bucket.bucket.bucket}"
   s3_bucket_name = aws_s3_bucket.cloudtrail_logs.bucket
@@ -84,7 +92,6 @@ resource "aws_cloudtrail" "s3_monitoring" {
     data_resource {
       type = "AWS::S3::Object"
 
-      # This will monitor all objects within the target bucket.
       values = ["${aws_s3_bucket.bucket.arn}/"]
     }
   }
