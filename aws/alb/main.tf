@@ -14,11 +14,11 @@ resource "aws_lb" "app_lb" {
 
     enable_deletion_protection = false
 
-    access_logs {
-        bucket  = module.my_s3_bucket.s3_bucket_id
-        prefix  = "${var.container_name}-alb"
-        enabled = true
-    }
+    #access_logs {
+    #    bucket  = module.my_s3_bucket.s3_bucket_id
+    #    prefix  = "${var.container_name}-alb"
+    #    enabled = true
+    #}
 
     depends_on = [module.my_s3_bucket]
 }
@@ -131,15 +131,15 @@ resource "aws_security_group" "lb_sg_app" {
   }
 }
 
-module "my_s3_bucket" {
-  source = "../standalone_resources/s3"
+#module "my_s3_bucket" {
+#  source = "../standalone_resources/s3"
 
-  prefix           = var.prefix
-  app_environment  = var.app_environment
-  name             = "alb-logs-${var.container_name}"
-  block_public_acls   = true
-  block_public_policy = true
-  ignore_public_acls  = true
-  customized_s3_policies = []
-}
+#  prefix           = var.prefix
+#  app_environment  = var.app_environment
+#  name             = "alb-logs-${var.container_name}"
+#  block_public_acls   = true
+#  block_public_policy = true
+#  ignore_public_acls  = true
+#  customized_s3_policies = []
+#}
 
