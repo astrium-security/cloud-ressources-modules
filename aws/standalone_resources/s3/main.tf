@@ -46,7 +46,7 @@ resource "aws_s3_bucket" "cloudtrail_logs" {
           Service = "cloudtrail.amazonaws.com"
         },
         Action    = "s3:PutObject"
-        Resource  = "${aws_s3_bucket.cloudtrail_logs.arn}/*"
+        Resource  = "${self.arn}/*"
         Condition = {
           StringEquals = {
             "s3:x-amz-acl" = "bucket-owner-full-control"
