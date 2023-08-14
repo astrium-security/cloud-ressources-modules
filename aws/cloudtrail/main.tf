@@ -27,6 +27,16 @@ resource "aws_guardduty_detector" "default" {
   enable = true
 }
 
+resource "aws_accessanalyzer_analyzer" "example" {
+  analyzer_name = "${var.prefix}-analyzer"
+  type          = "ACCOUNT"
+
+  tags = {
+    Name        = "${var.prefix}"
+    Environment = var.infra_environment
+  }
+}
+
 resource "aws_cloudtrail" "main" {
   depends_on = [aws_cloudwatch_log_group.cloudtrail, aws_s3_bucket_policy.cloudtrail_policy]
   name                          = "main-trail"
