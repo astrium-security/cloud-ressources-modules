@@ -1,4 +1,3 @@
-provider "random" {}
 
 module "kms_s3_key" {
     source                  = "../standalone_resources/kms"
