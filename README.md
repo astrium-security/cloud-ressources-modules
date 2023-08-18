@@ -89,5 +89,5 @@ Contributions to this repository are welcome. Please make sure to read our Contr
 
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for details. Please contact the woner of the repo
+This project is licensed under the MIT License. See the LICENSE file for details. Please contact the woner of the repo.
 
