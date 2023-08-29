@@ -35,7 +35,7 @@ data "http" "cloudflare_ips_v4" {
 #}
 
 locals {
-  cloudflare_ips_v4 = split("\n", data.http.cloudflare_ips_v4.body)
+  cloudflare_ips_v4 = split("\n", data.http.cloudflare_ips_v4.response_body)
 #  cloudflare_ips_v6 = split("\n", data.http.cloudflare_ips_v6.body)
 }
 
