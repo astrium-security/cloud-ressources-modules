@@ -26,9 +26,17 @@ EOF
   root_volume_type           = "gp2"  
 }
 
+data "http" "cloudflare_ips_v4" {
+  url = "https://www.cloudflare.com/ips-v4"
+}
+
+data "http" "cloudflare_ips_v6" {
+  url = "https://www.cloudflare.com/ips-v6"
+}
+
 locals {
-  cloudflare_ips_v4 = split("\n", http_get("https://www.cloudflare.com/ips-v4"))
-  cloudflare_ips_v6 = split("\n", http_get("https://www.cloudflare.com/ips-v6"))
+  cloudflare_ips_v4 = split("\n", data.http.cloudflare_ips_v4.body)
+  cloudflare_ips_v6 = split("\n", data.http.cloudflare_ips_v6.body)
 }
 
 module "security_groups" {
