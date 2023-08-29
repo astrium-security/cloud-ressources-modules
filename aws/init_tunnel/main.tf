@@ -30,13 +30,13 @@ data "http" "cloudflare_ips_v4" {
   url = "https://www.cloudflare.com/ips-v4"
 }
 
-data "http" "cloudflare_ips_v6" {
-  url = "https://www.cloudflare.com/ips-v6"
-}
+#data "http" "cloudflare_ips_v6" {
+#  url = "https://www.cloudflare.com/ips-v6"
+#}
 
 locals {
   cloudflare_ips_v4 = split("\n", data.http.cloudflare_ips_v4.body)
-  cloudflare_ips_v6 = split("\n", data.http.cloudflare_ips_v6.body)
+#  cloudflare_ips_v6 = split("\n", data.http.cloudflare_ips_v6.body)
 }
 
 module "security_groups" {
@@ -49,7 +49,7 @@ module "security_groups" {
   ingress_protocol      = "tcp"
   ingress_from_port     = 7844
   ingress_to_port       = 7844
-  ingress_cidr_blocks   = concat(local.cloudflare_ips_v4,local.cloudflare_ips_v6)
+  ingress_cidr_blocks   = local.cloudflare_ips_v4 # concat(local.cloudflare_ips_v4,local.cloudflare_ips_v6)
 
   egress_protocol       = "-1"
   egress_from_port      = 0
