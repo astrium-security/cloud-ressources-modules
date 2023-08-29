@@ -26,6 +26,11 @@ EOF
   root_volume_type           = "gp2"  
 }
 
+locals {
+  cloudflare_ips_v4 = split("\n", http_get("https://www.cloudflare.com/ips-v4"))
+  cloudflare_ips_v6 = split("\n", http_get("https://www.cloudflare.com/ips-v6"))
+}
+
 module "security_groups" {
   source                = "../standalone_resources/security_group"
   prefix                = var.prefix
@@ -36,7 +41,7 @@ module "security_groups" {
   ingress_protocol      = "tcp"
   ingress_from_port     = 7844
   ingress_to_port       = 7844
-  ingress_cidr_blocks   = ["0.0.0.0/0"]
+  ingress_cidr_blocks   = concat(local.cloudflare_ips_v4,local.cloudflare_ips_v6)
 
   egress_protocol       = "-1"
   egress_from_port      = 0
