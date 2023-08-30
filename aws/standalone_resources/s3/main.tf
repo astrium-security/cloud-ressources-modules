@@ -12,39 +12,6 @@ resource "aws_s3_bucket" "log_bucket" {
   bucket        = "log-${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}"
 }
 
-resource "aws_s3_bucket_ownership_controls" "example" {
-  bucket = aws_s3_bucket.log_bucket.id
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-}
-
-resource "aws_s3_bucket_public_access_block" "example" {
-  bucket = aws_s3_bucket.log_bucket.id
-
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
-}
-
-resource "aws_s3_bucket_acl" "write-log" {
-  depends_on = [
-    aws_s3_bucket_ownership_controls.example,
-    aws_s3_bucket_public_access_block.example,
-  ]
-
-  bucket = aws_s3_bucket.log_bucket.id
-  acl    = "log-delivery-write"
-}
-
-resource "aws_s3_bucket_logging" "b_logging" {
-  bucket = aws_s3_bucket.bucket.id
-
-  target_bucket = aws_s3_bucket.log_bucket.id
-  target_prefix = "log/"
-}
-
 resource "aws_s3_bucket_versioning" "versioning_bucket" {
   bucket = aws_s3_bucket.bucket.id
   versioning_configuration {
