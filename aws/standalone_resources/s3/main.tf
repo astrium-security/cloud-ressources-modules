@@ -37,7 +37,6 @@ resource "aws_s3_bucket_public_access_block" "s3_block_public" {
   ignore_public_acls = var.ignore_public_acls
 }
 
-
 # Logging S3 Bucket
 resource "aws_s3_bucket_ownership_controls" "example" {
   bucket = aws_s3_bucket.log_bucket.id
