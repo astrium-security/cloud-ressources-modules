@@ -35,10 +35,8 @@ resource "aws_s3_bucket_acl" "example" {
   ]
 
   bucket = aws_s3_bucket.log_bucket.id
-  acl    = "public-read"
+  acl    = "log-delivery-write"
 }
-
-
 
 resource "aws_s3_bucket_logging" "b_logging" {
   bucket = aws_s3_bucket.bucket.id
