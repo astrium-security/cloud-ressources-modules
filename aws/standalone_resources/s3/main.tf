@@ -44,8 +44,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3_sse" {
 
 resource "aws_s3_bucket_public_access_block" "s3_block_public" {
   bucket = aws_s3_bucket.bucket.id
-  block_public_acls   = false
-  block_public_policy = var.block_public_policy
-  ignore_public_acls = var.ignore_public_acls
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls = true
 }
 
