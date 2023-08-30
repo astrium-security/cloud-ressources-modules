@@ -70,3 +70,9 @@ resource "aws_s3_bucket_public_access_block" "s3_block_public" {
   ignore_public_acls = var.ignore_public_acls
 }
 
+resource "aws_s3_bucket_public_access_block" "s3_block_public_logs" {
+  bucket =  aws_s3_bucket.log_bucket.id
+  block_public_acls   = false
+  block_public_policy = false
+  ignore_public_acls = false
+}
