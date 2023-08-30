@@ -38,6 +38,16 @@ resource "aws_s3_bucket_acl" "example" {
   acl    = "log-delivery-write"
 }
 
+resource "aws_s3_bucket_acl" "example" {
+  depends_on = [
+    aws_s3_bucket_ownership_controls.example,
+    aws_s3_bucket_public_access_block.example,
+  ]
+
+  bucket = aws_s3_bucket.log_bucket.id
+  acl    = "log-delivery-read"
+}
+
 resource "aws_s3_bucket_logging" "b_logging" {
   bucket = aws_s3_bucket.bucket.id
 
