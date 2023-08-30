@@ -233,7 +233,7 @@ resource "aws_cloudtrail" "s3_object_read_logger" {
       type = "AWS::S3::Object"
 
       # ARN for the S3 bucket you wish to monitor. Replace "your-target-bucket" with your actual bucket name.
-      values = ["arn:aws:s3:::*/"]
+      values = ["arn:aws:s3:::*"]
     }
   }
 }
