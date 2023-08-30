@@ -12,10 +12,10 @@ resource "aws_s3_bucket" "log_bucket" {
   bucket        = "log-${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}"
 }
 
-#resource "aws_s3_bucket_acl" "log_bucket_acl" {
-#  bucket = aws_s3_bucket.log_bucket.id
-#  acl    = "log-delivery-write"
-#}
+resource "aws_s3_bucket_acl" "log_bucket_acl" {
+  bucket = aws_s3_bucket.log_bucket.id
+  acl    = "log-delivery-write"
+}
 
 resource "aws_s3_bucket_logging" "b_logging" {
   bucket = aws_s3_bucket.bucket.id
@@ -44,8 +44,14 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3_sse" {
 
 resource "aws_s3_bucket_public_access_block" "s3_block_public" {
   bucket = aws_s3_bucket.bucket.id
-  block_public_acls   = true
+  block_public_acls   = var.block_public_acls
+  block_public_policy = var.block_public_policy
+  ignore_public_acls = var.ignore_public_acls
+}
+
+resource "aws_s3_bucket_public_access_block" "s3_block_public" {
+  bucket =  aws_s3_bucket.log_bucket.id
+  block_public_acls   = false
   block_public_policy = true
   ignore_public_acls = true
 }
-
