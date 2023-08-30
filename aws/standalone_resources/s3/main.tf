@@ -12,10 +12,10 @@ resource "aws_s3_bucket" "log_bucket" {
   bucket        = "log-${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}"
 }
 
-#resource "aws_s3_bucket_acl" "log_bucket_acl" {
-#  bucket = aws_s3_bucket.log_bucket.id
-#  acl    = "log-delivery-write"
-#}
+resource "aws_s3_bucket_acl" "log_bucket_acl" {
+  bucket = aws_s3_bucket.log_bucket.id
+  acl    = "log-delivery-write"
+}
 
 resource "aws_s3_bucket_logging" "b_logging" {
   bucket = aws_s3_bucket.bucket.id
