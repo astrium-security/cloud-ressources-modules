@@ -28,7 +28,7 @@ resource "aws_s3_bucket_public_access_block" "example" {
   restrict_public_buckets = false
 }
 
-resource "aws_s3_bucket_acl" "example" {
+resource "aws_s3_bucket_acl" "write-log" {
   depends_on = [
     aws_s3_bucket_ownership_controls.example,
     aws_s3_bucket_public_access_block.example,
@@ -38,7 +38,7 @@ resource "aws_s3_bucket_acl" "example" {
   acl    = "log-delivery-write"
 }
 
-resource "aws_s3_bucket_acl" "example" {
+resource "aws_s3_bucket_acl" "read-log" {
   depends_on = [
     aws_s3_bucket_ownership_controls.example,
     aws_s3_bucket_public_access_block.example,
