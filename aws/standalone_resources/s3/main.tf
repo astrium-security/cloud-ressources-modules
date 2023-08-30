@@ -75,25 +75,27 @@ resource "aws_s3_bucket_policy" "target_bucket_policy" {
   bucket = aws_s3_bucket.bucket.id
 
   policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Sid       = "AllowCloudTrailBucketLogging",
-        Effect    = "Allow",
-        Principal = {
-          Service = "cloudtrail.amazonaws.com"
-        },
-        Action   = ["s3:GetBucketAcl", "s3:PutObject"],
-        Resource = [
-          "arn:aws:s3:::${aws_s3_bucket.bucket.bucket}",
-          "arn:aws:s3:::${aws_s3_bucket.bucket.bucket}/*"
-        ],
-        Condition = {
-          StringEquals = {
-            "s3:x-amz-acl" = "bucket-owner-full-control"
-          }
-        }
+    Sid       = "AllowCloudTrailBucketLoggingPut",
+    Effect    = "Allow",
+    Principal = {
+      Service = "cloudtrail.amazonaws.com"
+    },
+    Action   = "s3:PutObject",
+    Resource = "arn:aws:s3:::${aws_s3_bucket.bucket.bucket}/*",
+    Condition = {
+      StringEquals = {
+        "s3:x-amz-acl" = "bucket-owner-full-control"
       }
-    ]
-  })
+    }
+  },
+  {
+    Sid       = "AllowCloudTrailBucketLoggingGetAcl",
+    Effect    = "Allow",
+    Principal = {
+      Service = "cloudtrail.amazonaws.com"
+    },
+    Action   = "s3:GetBucketAcl",
+    Resource = "arn:aws:s3:::${aws_s3_bucket.bucket.bucket}"
+  }
+  )
 }
