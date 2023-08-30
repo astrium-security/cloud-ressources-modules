@@ -10,6 +10,7 @@ resource "aws_s3_bucket" "bucket" {
 
 resource "aws_s3_bucket" "log_bucket" {
   bucket        = "log-${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}"
+  acl           = "private"
 }
 
 resource "aws_s3_bucket_acl" "log_bucket_acl" {
