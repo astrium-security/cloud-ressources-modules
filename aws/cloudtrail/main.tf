@@ -244,7 +244,7 @@ resource "aws_cloudtrail" "s3_object_write_logger" {
   include_global_service_events = true
 
   event_selector {
-    read_write_type           = "Write"
+    read_write_type           = "WriteOnly"
     include_management_events = true
 
     data_resource {
