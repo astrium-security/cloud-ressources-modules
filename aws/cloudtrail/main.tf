@@ -17,7 +17,7 @@ module "my_s3_bucket" {
   app_environment  = var.infra_environment
   name             = "cloudtrail"
   kms_key_arn      = module.kms_s3_key.kms_key_arn
-  block_public_acls   = true
+  block_public_acls   = false
   block_public_policy = true
   ignore_public_acls  = true
 }
