@@ -10,13 +10,35 @@ resource "aws_s3_bucket" "bucket" {
 
 resource "aws_s3_bucket" "log_bucket" {
   bucket        = "log-${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}"
-  acl           = "private"
 }
 
-#resource "aws_s3_bucket_acl" "log_bucket_acl" {
-#  bucket = aws_s3_bucket.log_bucket.id
-#  acl    = "log-delivery-write"
-#}
+resource "aws_s3_bucket_ownership_controls" "example" {
+  bucket = aws_s3_bucket.log_bucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "example" {
+  bucket = aws_s3_bucket.log_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_acl" "example" {
+  depends_on = [
+    aws_s3_bucket_ownership_controls.example,
+    aws_s3_bucket_public_access_block.example,
+  ]
+
+  bucket = aws_s3_bucket.log_bucket.id
+  acl    = "public-read"
+}
+
+
 
 resource "aws_s3_bucket_logging" "b_logging" {
   bucket = aws_s3_bucket.bucket.id
