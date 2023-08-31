@@ -72,8 +72,6 @@ resource "aws_s3_bucket_logging" "b_logging" {
 }
 
 data "aws_s3_bucket" "selected_bucket" {
-  tags = {
-    Name = "core-prod-cloudtrail-*"
-  }
+  bucket = "core-prod-cloudtrail-*"
 }
 
