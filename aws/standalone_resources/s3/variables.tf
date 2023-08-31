@@ -13,11 +13,6 @@ variable "name" {
   type        = string
 }
 
-variable "cloudtrail_bucket_name" {
-  description = "cloudtrail_bucket_name"
-  type        = string
-}
-
 variable "kms_key_arn" {
   description = "ARN of the KMS key to be used for server-side encryption"
   type        = string

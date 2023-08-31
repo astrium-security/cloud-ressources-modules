@@ -71,36 +71,15 @@ resource "aws_s3_bucket_logging" "b_logging" {
   target_prefix = "log/"
 }
 
-resource "aws_cloudtrail" "s3_object_read_logger" {
-  name                          = "${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}-read-logger"
-  s3_bucket_name                = var.cloudtrail_bucket_name
-  include_global_service_events = true
+resource "http" "get_buckets" {
+  url = "https://s3.amazonaws.com/list_buckets"
 
-  event_selector {
-    read_write_type           = "ReadOnly"
-    include_management_events = true
-
-    data_resource {
-      type = "AWS::S3::Object"
-
-      values = ["${aws_s3_bucket.bucket.arn}/"]
-    }
+  headers = {
+    "Authorization" = "Bearer ${var.aws_access_key_id}"
   }
+
+  request_body = jsonencode({
+    "Prefix" = "cloudtrail-"
+  })
 }
 
-resource "aws_cloudtrail" "s3_object_write_logger" {
-  name                          = "${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}-write-logger"
-  s3_bucket_name                = var.cloudtrail_bucket_name
-  include_global_service_events = true
-
-  event_selector {
-    read_write_type           = "WriteOnly"
-    include_management_events = true
-
-    data_resource {
-      type = "AWS::S3::Object"
-      
-      values = ["${aws_s3_bucket.bucket.arn}/"]
-    }
-  }
-}
