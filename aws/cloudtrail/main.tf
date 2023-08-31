@@ -1,3 +1,4 @@
+data "aws_caller_identity" "current" {}
 
 module "kms_s3_key" {
     source                  = "../standalone_resources/kms"
@@ -15,7 +16,7 @@ module "my_s3_bucket" {
 
   prefix           = var.prefix
   app_environment  = var.infra_environment
-  name             = "cloudtrail"
+  name             = "cloudtrail-${data.aws_caller_identity.current.account_id}"
   kms_key_arn      = module.kms_s3_key.kms_key_arn
   block_public_acls   = true
   block_public_policy = true
