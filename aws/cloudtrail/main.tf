@@ -1,5 +1,3 @@
-data "aws_caller_identity" "current" {}
-
 module "kms_s3_key" {
     source                  = "../standalone_resources/kms"
     prefix                  = var.prefix
