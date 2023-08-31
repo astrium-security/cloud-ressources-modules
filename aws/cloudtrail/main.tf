@@ -20,6 +20,7 @@ module "my_s3_bucket" {
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
+  create_random_suffix  = false
 }
 
 resource "aws_guardduty_detector" "default" {
