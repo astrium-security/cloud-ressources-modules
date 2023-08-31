@@ -1,3 +1,13 @@
+terraform {
+  required_version = ">= 1.5.2"
+    required_providers {
+      cloudflare = {
+        source  = "registry.terraform.io/cloudflare/cloudflare"
+        version = "~> 4.10.0"
+      }
+    }
+}
+
 resource "cloudflare_access_application" "apps" {
   zone_id = var.cloudflare_zone_id
   name                      = var.name
