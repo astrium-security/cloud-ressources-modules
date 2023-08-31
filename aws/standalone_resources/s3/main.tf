@@ -71,11 +71,11 @@ resource "aws_s3_bucket_logging" "b_logging" {
   target_prefix = "log/"
 }
 
-resource "http" "get_buckets" {
+data "http" "get_buckets" {
   url = "https://s3.amazonaws.com/list_buckets"
 
   headers = {
-    "Authorization" = "Bearer ${var.aws_access_key_id}"
+    "Authorization" = "Bearer <your-access-key-id>"
   }
 
   request_body = jsonencode({
@@ -83,3 +83,6 @@ resource "http" "get_buckets" {
   })
 }
 
+output "buckets" {
+  value = data.http.get_buckets.body.Buckets
+}
