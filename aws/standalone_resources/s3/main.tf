@@ -5,16 +5,13 @@ resource "random_id" "name_suffix" {
 data "aws_caller_identity" "current" {}
 
 resource "aws_s3_bucket" "bucket" {
-  bucket = var.create_random_suffix ? 
-    "${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}" : 
-    "${var.prefix}-${var.app_environment}-${var.name}"
+  bucket = var.create_random_suffix ? "${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}" : "${var.prefix}-${var.app_environment}-${var.name}"
 }
 
 resource "aws_s3_bucket" "log_bucket" {
-  bucket = var.create_random_suffix ? 
-    "log-${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}" : 
-    "log-${var.prefix}-${var.app_environment}-${var.name}"
+  bucket = var.create_random_suffix ? "log-${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}" : "log-${var.prefix}-${var.app_environment}-${var.name}"
 }
+
 
 resource "aws_s3_bucket_versioning" "versioning_bucket" {
   bucket = aws_s3_bucket.bucket.id
