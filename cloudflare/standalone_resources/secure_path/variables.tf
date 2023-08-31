@@ -23,6 +23,11 @@ variable "region" {
   type        = string
 }
 
+variable "name" {
+  description = "name"
+  type        = string
+}
+
 variable "platform_domain_public" {
   description = "platform_domain_public"
   type        = string
