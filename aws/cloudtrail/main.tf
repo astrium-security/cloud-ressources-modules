@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 module "kms_s3_key" {
     source                  = "../standalone_resources/kms"
     prefix                  = var.prefix
@@ -117,8 +119,6 @@ resource "aws_s3_bucket_policy" "cloudtrail_policy" {
     ]
   })
 }
-
-data "aws_caller_identity" "current" {}
 
 locals {
   regions = [
