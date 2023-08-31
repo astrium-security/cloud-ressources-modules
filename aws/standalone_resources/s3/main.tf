@@ -71,3 +71,45 @@ resource "aws_s3_bucket_logging" "b_logging" {
   target_prefix = "log/"
 }
 
+data "aws_s3_bucket" "selected_bucket" {
+  filter {
+    name   = "tag:Name"
+    values = ["core-prod-cloudtrail-*"]
+  }
+}
+
+resource "aws_cloudtrail" "s3_object_read_logger" {
+  name                          = "s3-object-read-logger"
+  s3_bucket_name                = data.aws_s3_bucket.selected_bucket
+  include_global_service_events = true
+
+  event_selector {
+    read_write_type           = "ReadOnly"
+    include_management_events = true
+
+    data_resource {
+      type = "AWS::S3::Object"
+
+      # ARN for the S3 bucket you wish to monitor. Replace "your-target-bucket" with your actual bucket name.
+      values = ["arn:aws:s3:::core-prod-config-9339ad60/"]
+    }
+  }
+}
+
+resource "aws_cloudtrail" "s3_object_write_logger" {
+  name                          = "s3-object-write-logger"
+  s3_bucket_name                = data.aws_s3_bucket.selected_bucket
+  include_global_service_events = true
+
+  event_selector {
+    read_write_type           = "WriteOnly"
+    include_management_events = true
+
+    data_resource {
+      type = "AWS::S3::Object"
+
+      # ARN for the S3 bucket you wish to monitor. Replace "your-target-bucket" with your actual bucket name.
+      values = ["arn:aws:s3:::core-prod-config-9339ad60/"]
+    }
+  }
+}
