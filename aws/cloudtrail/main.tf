@@ -219,3 +219,19 @@ resource "aws_iam_role" "config" {
     ]
   })
 }
+
+resource "aws_cloudtrail" "s3_object_read_logger" {
+  name                          = "s3-buckets"
+  s3_bucket_name                = module.my_s3_bucket.s3_bucket_name
+  include_global_service_events = true
+
+  event_selector {
+    read_write_type           = "All"
+    include_management_events = true
+
+    data_resource {
+      type = "AWS::S3::Object"
+      values = ["arn:aws:s3"]
+    }
+  }
+}
