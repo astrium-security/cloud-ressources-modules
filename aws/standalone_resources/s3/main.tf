@@ -71,18 +71,8 @@ resource "aws_s3_bucket_logging" "b_logging" {
   target_prefix = "log/"
 }
 
-data "http" "get_buckets" {
-  url = "https://s3.amazonaws.com/list_buckets"
+data "aws_s3_bucket" "cloudtrail_buckets" {}
 
-  headers = {
-    "Authorization" = "Bearer <your-access-key-id>"
-  }
-
-  request_body = jsonencode({
-    "Prefix" = "cloudtrail-"
-  })
-}
-
-output "buckets" {
-  value = data.http.get_buckets.body.Buckets
+output "cloudtrail_bucket_names" {
+  value = [for b in data.aws_s3_bucket.cloudtrail_buckets.names : b if starts_with(b, "cloudtrail-")]
 }
