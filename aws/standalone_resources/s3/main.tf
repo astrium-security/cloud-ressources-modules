@@ -71,8 +71,16 @@ resource "aws_s3_bucket_logging" "b_logging" {
   target_prefix = "log/"
 }
 
-data "aws_s3_bucket" "cloudtrail_buckets" {}
+resource "null_resource" "get_s3_buckets" {
+  provisioner "local-exec" {
+    command = "aws s3api list-buckets --query 'Buckets[?starts_with(Name, `cloudtrail-`)].Name' --output text > buckets.txt"
+  }
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+}
 
-output "cloudtrail_bucket_names" {
-  value = [for b in data.aws_s3_bucket.cloudtrail_buckets.names : b if starts_with(b, "cloudtrail-")]
+output "cloudtrail_buckets" {
+  value = [for b in split("\n", file("buckets.txt")) : b if b != ""]
+  depends_on = [null_resource.get_s3_buckets]
 }
