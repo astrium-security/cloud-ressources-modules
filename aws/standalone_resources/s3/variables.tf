@@ -13,6 +13,12 @@ variable "name" {
   type        = string
 }
 
+variable "create_random_suffix" {
+  description = "create_random_prefix"
+  type        = bool
+  default     = true
+}
+
 variable "kms_key_arn" {
   description = "ARN of the KMS key to be used for server-side encryption"
   type        = string

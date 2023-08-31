@@ -5,11 +5,15 @@ resource "random_id" "name_suffix" {
 data "aws_caller_identity" "current" {}
 
 resource "aws_s3_bucket" "bucket" {
-  bucket        = "${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}"
+  bucket = var.create_random_suffix ? 
+    "${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}" : 
+    "${var.prefix}-${var.app_environment}-${var.name}"
 }
 
 resource "aws_s3_bucket" "log_bucket" {
-  bucket        = "log-${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}"
+  bucket = var.create_random_suffix ? 
+    "log-${var.prefix}-${var.app_environment}-${var.name}-${random_id.name_suffix.hex}" : 
+    "log-${var.prefix}-${var.app_environment}-${var.name}"
 }
 
 resource "aws_s3_bucket_versioning" "versioning_bucket" {
@@ -69,18 +73,4 @@ resource "aws_s3_bucket_logging" "b_logging" {
 
   target_bucket = aws_s3_bucket.log_bucket.id
   target_prefix = "log/"
-}
-
-resource "null_resource" "get_s3_buckets" {
-  provisioner "local-exec" {
-    command = "aws s3api list-buckets --query 'Buckets[?starts_with(Name, `cloudtrail-`)].Name' --output text > buckets.txt"
-  }
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-}
-
-output "cloudtrail_buckets" {
-  value = [for b in split("\n", file("buckets.txt")) : b if b != ""]
-  depends_on = [null_resource.get_s3_buckets]
 }
