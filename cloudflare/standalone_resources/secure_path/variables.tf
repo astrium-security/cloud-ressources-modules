@@ -28,6 +28,12 @@ variable "name" {
   type        = string
 }
 
+variable "email_domain" {
+  description = "name"
+  type        = any
+}
+
+
 variable "platform_domain_public" {
   description = "platform_domain_public"
   type        = string
