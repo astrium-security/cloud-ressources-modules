@@ -66,10 +66,10 @@ resource "aws_guardduty_detector" "default" {
   enable = true
 }
 
-resource "aws_accessanalyzer_analyzer" "this" {
+#resource "aws_accessanalyzer_analyzer" "this" {
   #for_each = { for region in local.regions : region => region }
-  analyzer_name = "${var.customer_prefix}-${var.tenant_name}-analyzer"
-}
+#  analyzer_name = "${var.customer_prefix}-${var.tenant_name}-analyzer"
+#}
 
 resource "aws_iam_account_password_policy" "this" {
   allow_users_to_change_password = true
