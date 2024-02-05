@@ -8,7 +8,7 @@ module "create_instance" {
 
   instance_name              = "cf-tunnel-${count.index}"
   
-  default_ami                = "ami-0084687b72b40222c"
+  default_ami                = "ami-033dbb4175cd2a3b3"
   instance_type              = "t2.nano"
 
   subnet_id                  = var.public_subnets[count.index].id 
