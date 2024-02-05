@@ -62,9 +62,9 @@ resource "aws_iam_role" "config" {
   })
 }
 
-resource "aws_guardduty_detector" "default" {
-  enable = true
-}
+#resource "aws_guardduty_detector" "default" {
+#  enable = true
+#}
 
 #resource "aws_accessanalyzer_analyzer" "this" {
   #for_each = { for region in local.regions : region => region }
