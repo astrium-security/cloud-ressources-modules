@@ -13,6 +13,14 @@ variable "vpc" {
       vpc_id = "vpc-0a52c88a170901671"
       subnets = [
         {
+            id = "subnet-0b7a236400288b14d"
+            cidr_block = "172.31.16.0/20"
+        },
+        {
+            id = "subnet-0279b0922eb7b7514"
+            cidr_block = "172.31.32.0/20"
+        },
+        {
             id = "subnet-090b70a700c6e2b80"
             cidr_block = "172.31.0.0/20"
         }
