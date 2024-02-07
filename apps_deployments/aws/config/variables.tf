@@ -14,12 +14,12 @@ variable "cloudflare_zone_id" {
 }
 
 variable "internal_domain" {
-  default = "noprod.platform-factory.internal"
+  default = "platform-factory.internal"
   type = string
 }
 
 variable "public_domain" {
-  default = "noprod.platform-factory.com"
+  default = "platform-factory.com"
   type = string
 }
 
