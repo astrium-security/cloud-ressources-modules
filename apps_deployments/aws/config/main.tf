@@ -63,7 +63,7 @@ module "app" {
 
 locals {
     dynamic_ingress_rules = {
-      hostname = var.app_env != "prod" ?  "${var.app_name}-${var.app_env}.${var.region}.${var.public_domain}" : "${var.app_name}.${var.public_domain}"
+      hostname = var.app_env != "prod" ?  "${var.app_name}.ris.${var.app_env}.noprod.${var.public_domain}" : "${var.app_name}.${var.public_domain}"
       origin_request = []
       path = "/"
       service = "http://${module.app.alb.dns_name}"
