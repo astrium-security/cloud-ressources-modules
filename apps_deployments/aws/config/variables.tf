@@ -65,13 +65,13 @@ variable "app_health" {
 variable "container_port" {
     description = "container_port"
     type        = string
-    default = 3000
+    default = 80
 }
 
 variable "host_port" {
     description = "host_port"
     type        = string
-    default = 3000
+    default = 80
 }
 
 variable "domain_emails_authorization_only" {
