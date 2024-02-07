@@ -4,18 +4,22 @@ variable "cloudflare_api_token" {
 }
 
 variable "cloudflare_account_id" {
+  default = "e8b10b5ba49d8ecf809746dee6779b7f"
   type = string
 }
 
 variable "cloudflare_zone_id" {
+  default = "4319d77718492c29896112b882c5de62"
   type = string
 }
 
 variable "internal_domain" {
+  default = "noprod.platform-factory.internal"
   type = string
 }
 
 variable "public_domain" {
+  default = "noprod.platform-factory.com"
   type = string
 }
 
