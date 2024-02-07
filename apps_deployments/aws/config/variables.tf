@@ -107,6 +107,6 @@ variable "app_ram_container" {
 }
 
 variable "vpc_id" {
-    default = "vpc-0a52c88a170901671"
+    default = "vpc-06fae845f7966f7f1"
     type        = string
 }
