@@ -1,8 +1,8 @@
 resource "cloudflare_access_application" "apps" {
   count = var.app_private ? 1 : 0
   zone_id = var.cloudflare_zone_id
-  name                      = var.app_env != "prod" ?  "${var.app_name}-${var.app_env}.${var.region}.${var.public_domain}" : "${var.app_name}.${var.public_domain}"
-  domain                    = var.app_env != "prod" ?  "${var.app_name}-${var.app_env}.${var.region}.${var.public_domain}" : "${var.app_name}.${var.public_domain}"
+  name                      = var.app_env != "prod" ?  "${var.app_name}.ris.${var.app_env}.noprod.${var.public_domain}" : "${var.app_name}.${var.public_domain}"
+  domain                    = var.app_env != "prod" ?  "${var.app_name}.ris.${var.app_env}.noprod.${var.public_domain}" : "${var.app_name}.${var.public_domain}"
   type                      = "self_hosted"
   session_duration          = "24h"
   auto_redirect_to_identity = false
@@ -104,7 +104,7 @@ resource "cloudflare_origin_ca_certificate" "cert" {
     csr                = tls_cert_request.cert.cert_request_pem
 
     hostnames          = [ 
-      var.app_env != "prod" ?  "${var.app_name}-${var.app_env}.${var.region}.${var.public_domain}" : "${var.app_name}.${var.public_domain}",
+      var.app_env != "prod" ?  "${var.app_name}.ris.${var.app_env}.noprod.${var.public_domain}" : "${var.app_name}.${var.public_domain}",
       "${var.public_domain}"
     ]
 
