@@ -92,7 +92,7 @@ module "cloudflare_add_records" {
 }
 
 data "aws_route53_zone" "selected" {
-  name = "${var.infra_env}.${var.internal_domain}"
+  name = "ris.${var.infra_env}.${var.internal_domain}"
   private_zone = true
 
 }
