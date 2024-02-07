@@ -1,6 +1,6 @@
 resource "aws_ecs_service" "main_app" {
     name                               = "${var.prefix}-${var.container_name}-${var.app_environment}-service"
-    cluster                            = var.cluster.cluster_arn
+    cluster                            = var.cluster.arn
 
     task_definition                    = var.task_definition_arn
     desired_count                      = var.desired_count
