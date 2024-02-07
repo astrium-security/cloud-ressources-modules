@@ -105,3 +105,8 @@ variable "app_ram_container" {
     type        = string
     default = 512
 }
+
+variable "vpc_id" {
+    default = "vpc-0a52c88a170901671"
+    type        = string
+}

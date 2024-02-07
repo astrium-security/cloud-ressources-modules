@@ -125,7 +125,7 @@ data "aws_subnets" "public_ids" {
 
   filter {
     name   = "vpc-id"
-    values = [data.aws_vpc.selected.id]
+    values = [var.vpc_id]
   }
 }
 
