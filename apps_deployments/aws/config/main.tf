@@ -97,23 +97,12 @@ data "aws_route53_zone" "selected" {
 
 }
 
-data "aws_vpc" "selected" {
-  filter {
-    name   = "tag:Name"
-    values = ["aws-controltower-VPC"]
-  }
-}
-
 data "aws_ecs_cluster" "all" {
   cluster_name = "urw-ris-${var.infra_env}"
 }
 
 output "ecs_cluster_id" {
   value = data.aws_ecs_cluster.all.arn
-}
-
-output "vpc_id" {
-  value = data.aws_vpc.selected.id
 }
 
 
