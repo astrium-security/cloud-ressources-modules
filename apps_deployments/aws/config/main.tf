@@ -5,7 +5,7 @@ module "create_ecr_registry" {
 }
 
 module "app" {
-  source              = "../../../../terraform-modules/aws/container_service_deployment"
+  source              = "../../../aws/container_service_deployment"
   prefix              = "apps"
   region = var.region
 
