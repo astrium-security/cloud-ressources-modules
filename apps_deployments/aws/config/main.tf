@@ -11,7 +11,7 @@ module "app" {
 
   container_name      = "${var.app_name}"
   app_environment     = var.app_env
-  vpc_id              = data.aws_vpc.selected.id
+  vpc_id              = var.vpc_id
   public_subnets      = values(data.aws_subnet.public)
 
   cpu = var.app_cpu_container
@@ -105,7 +105,7 @@ data "aws_vpc" "selected" {
 }
 
 data "aws_ecs_cluster" "all" {
-  cluster_name = "platform-${var.infra_env}"
+  cluster_name = "urw-ris-${var.infra_env}"
 }
 
 output "ecs_cluster_id" {
